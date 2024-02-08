@@ -15,7 +15,7 @@ define("CONFIG",parse_ini_file("../../config.ini"));
  * This is needed for cookie based authentication to encrypt the cookie.
  * Needs to be a 32-bytes long string of random bytes. See FAQ 2.10.
  */
-$cfg['blowfish_secret'] = 'ANONYMOUSlazyRubberDuck123404321'; /* YOU MUST FILL IN THIS FOR COOKIE AUTH! */
+$cfg['blowfish_secret'] = constant("CONFIG")["blowfish_secret"]; /* YOU MUST FILL IN THIS FOR COOKIE AUTH! */
 
 /**
  * Servers configuration
