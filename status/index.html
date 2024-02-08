@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Status</title>
+    <link rel="stylesheet" href="./plugin/jquery-ui/jquery-ui.min.css" />
+    <link rel="stylesheet" href="./plugin/jquery-ui/jquery-ui.theme.min.css" />
+    <link rel="stylesheet" href="./plugin/jquery-ui/jquery-ui.structure.min.css" />
+    <link rel="stylesheet" href="./theme/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./theme/bootstrap/css/bootstrap-responsive.min.css" />
+    <script src="./plugin/jquery-3.7.1.min.js"></script>
+
+  </head>
+  <body>
+    <div class="hero-unit">
+      <center><h1>API Status</h1></center>
+    </div>
+    <div class="container" id="statuscn">
+    </div>
+    <script src="./plugin/jquery-ui/jquery-ui.min.js"></script>
+    <script src="./theme/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+        const paths = [
+            "/api/"
+        ]
+         function initPage(){
+            paths.forEach((path)=>{
+              console.log(path)
+             const res = $.get(path)
+             res.then(
+               function (_,res){
+                $("#statuscn").append(
+                    `
+                    <div class="well well-large">
+                        <h4>API Path : ${path}</h4>
+                        <div class="progress progress-striped active">
+                            <div class="bar bar-success" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                    `
+                )
+               }
+             )
+             res.fail(function (_,res){
+                $("#statuscn").append(
+                    `
+                    <div class="well well-large">
+                        <h4>API Path : ${path}</h4>
+                        <div class="progress progress-striped active">
+                            <div class="bar bar-danger" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                    `
+                )
+               })
+            
+             
+        })
+        }
+        initPage()
+
+    </script>
+  </body>
+</html>
