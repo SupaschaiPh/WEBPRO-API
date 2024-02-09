@@ -1,4 +1,5 @@
 <?php
+
 /**
  * phpMyAdmin sample configuration, you can use it as base for
  * manual configuration. For easier setup you can use setup/
@@ -9,7 +10,7 @@
 
 declare(strict_types=1);
 
-define("CONFIG",parse_ini_file("../../config.ini"));
+define("CONFIG", parse_ini_file("../../config.ini"));
 
 /**
  * This is needed for cookie based authentication to encrypt the cookie.
@@ -29,7 +30,11 @@ $i++;
 /* Authentication type */
 $cfg['Servers'][$i]['auth_type'] = 'cookie';
 /* Server parameters */
-$cfg['Servers'][$i]['host'] = constant("CONFIG")["HOST"].":".constant("CONFIG")["PORT"];
+if (strcmp(constant("CONFIG")["PORT"], "") == 1) {
+    $cfg['Servers'][$i]['host'] = constant("CONFIG")["HOST"] . ":" . constant("CONFIG")["PORT"];
+} else {
+    $cfg['Servers'][$i]['host'] = constant("CONFIG")["HOST"];
+}
 $cfg['Servers'][$i]['compress'] = false;
 $cfg['Servers'][$i]['AllowNoPassword'] = false;
 
