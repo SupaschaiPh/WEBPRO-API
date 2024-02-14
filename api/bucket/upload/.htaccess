@@ -1,0 +1,3 @@
+RewriteEngine on
+RewriteRule ^(.*)$ /api/bucket/?file=$1 [R,L]
+
