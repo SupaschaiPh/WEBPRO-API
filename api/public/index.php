@@ -43,6 +43,7 @@ $callableResolver = $app->getCallableResolver();
 $middleware = require __DIR__ . '/../app/middleware.php';
 $middleware($app);
 
+
 // Register routes
 $routes = require __DIR__ . '/../app/routes.php';
 $routes($app);

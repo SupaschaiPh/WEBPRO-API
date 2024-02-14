@@ -13,13 +13,21 @@ return function (App $app) {
    
 
     $app->get('/', function (Request $request, Response $response) {
-        $response->getBody()->write("Hello");
+        $response->getBody()->write($_SESSION["ke"]);
         return $response;
     });
 
+
+
     $app->get('/session', function (Request $request, Response $response) {
-        
+        $_SESSION["ke"] = "WOW";
         $response->getBody()->write(json_encode($_SESSION));
+        return $response;
+    });
+
+    $app->get('/logout', function (Request $request, Response $response) {
+        session_destroy();
+        $response->getBody()->write("Goodbye");
         return $response;
     });
 
