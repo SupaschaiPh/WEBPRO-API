@@ -1,4 +1,0 @@
-RewriteEngine on
-Redirect "/api/bucket/upload/api/tool/files/index.php" "/api/tool/files/"
-RewriteRule ^(.*)$ /api/bucket/?file=$1 [L]
-
