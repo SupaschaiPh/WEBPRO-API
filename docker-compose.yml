@@ -1,7 +1,20 @@
 services:
   web:
-    image: php:8.3-apache
+    build: .
     volumes:
-    - ./:/var/www/html/
+      - "./:/var/www/html/"
     ports:
     - 8080:80
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_USER: root
+      MARIADB_ROOT_PASSWORD: 123456
+      MARIADB_USER: user
+      MARIADB_PASSWORD: 123456
+      MYSQL_ROOT_HOST: "%"
+      MARIADB_ROOT_HOST: "%"
+
+    ports:
+    - 3306:3306
