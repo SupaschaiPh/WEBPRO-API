@@ -10,7 +10,7 @@ try {
     if (mysqli_connect_error()) {
         echo json_encode(array("error"=>"mysql gone away"));
     }
-    $sql = "SELECT * FROM user";
+    $sql = "SELECT * FROM user JOIN user_role USING (role)";
     echo json_encode(mysqli_query($conn,$sql));
     mysqli_close($conn);
 } catch (Throwable $th) {
