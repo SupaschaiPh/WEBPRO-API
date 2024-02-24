@@ -1,6 +1,8 @@
 <?php
 include "../hearder.php";
 include "../generalFn.php";
+include "../middleware.php";
+
 
 define("CONFIG", parse_ini_file("../../config.ini"));
 
@@ -11,7 +13,8 @@ try {
         echo json_encode(array("error"=>"mysql gone away"));
     }
     $sql = "SELECT * FROM user JOIN user_role USING (role)";
-    echo json_encode(mysqli_query($conn,$sql));
+
+    echo json_encode(mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC));
     mysqli_close($conn);
 } catch (Throwable $th) {
     http_response_code(503);

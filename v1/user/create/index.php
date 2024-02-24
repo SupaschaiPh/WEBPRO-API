@@ -1,13 +1,15 @@
 <?php
 include "../../hearder.php";
 include "../../generalFn.php";
+include "../../middleware.php";
+
 
 
 define("CONFIG", parse_ini_file("../../../config.ini"));
 $RequireQuery = array("email", "password", "name", "lastname");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    checkRuirekeyQuery($_POST, $RequireQuery);
+    checkRequirekeyQuery($_POST, $RequireQuery);
 
     try {
         $conn = mysqli_connect(CONFIG["HOST"], CONFIG["DB_USERNAME"], CONFIG["DB_PASSWORD"], CONFIG["DB_MAIN_NAME"]);
