@@ -7,9 +7,9 @@ try {
     $conn = mysqli_connect(CONFIG["HOST"], CONFIG["DB_USERNAME"], CONFIG["DB_PASSWORD"],CONFIG["DB_MAIN_NAME"]);
     if (mysqli_connect_error()) {
         echo json_encode(array("error"=>"mysql gone away"));
+        http_response_code(503);
     }
-    $sql = "SELECT * FROM `user`";
-    echo json_encode(mysqli_query($conn,$sql));
+    echo json_encode(array("status"=>"ok"));
     mysqli_close($conn);
 } catch (Throwable $th) {
     http_response_code(503);

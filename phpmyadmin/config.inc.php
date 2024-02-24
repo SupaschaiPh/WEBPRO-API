@@ -10,11 +10,7 @@
 
 declare(strict_types=1);
 
-<<<<<<<< HEAD:phpmyadmin/config.inc.php
 define("CONFIG", parse_ini_file("../config.ini"));
-========
-define("CONFIG", parse_ini_file("../../config.ini"));
->>>>>>>> main:tool/phpmyadmin/config.inc.php
 
 /**
  * This is needed for cookie based authentication to encrypt the cookie.
