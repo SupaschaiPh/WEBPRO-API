@@ -8,6 +8,8 @@ services:
   db:
     image: mariadb
     restart: always
+    volumes:
+      - ./mariadb:/var/lib/mysql
     environment:
       MARIADB_ROOT_USER: root
       MARIADB_ROOT_PASSWORD: 123456
