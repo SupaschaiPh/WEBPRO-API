@@ -17,6 +17,12 @@ services:
       MARIADB_PASSWORD: 123456
       MYSQL_ROOT_HOST: "%"
       MARIADB_ROOT_HOST: "%"
-
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    depends_on:
+      - db
     ports:
-    - 3306:3306
+      - 9090:80
+    environment:
+      - PMA_HOST=db  
