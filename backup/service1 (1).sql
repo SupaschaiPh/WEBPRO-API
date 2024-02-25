@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `employee` (
-  `id` uuid NOT NULL,
+  `id` int(11) NOT NULL,
   `duty` varchar(50) NOT NULL,
   `address` text NOT NULL,
   `start_date` datetime NOT NULL,
@@ -75,8 +75,8 @@ CREATE TABLE `order_bill` (
   `table_id` varchar(50) NOT NULL,
   `description` text NOT NULL,
   `status` varchar(50) NOT NULL,
-  `waiter_id` uuid DEFAULT NULL,
-  `order_by` uuid DEFAULT NULL,
+  `waiter_id` int(11) DEFAULT NULL,
+  `order_by` int(11) DEFAULT NULL,
   `price` float NOT NULL,
   `date` datetime NOT NULL,
   `time_stamp` timestamp NOT NULL,
@@ -106,7 +106,7 @@ CREATE TABLE `order_transaction` (
   `menu_id` int(11) NOT NULL,
   `count` int(11) NOT NULL,
   `menu_price` float NOT NULL,
-  `response_by` uuid NOT NULL
+  `response_by` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -119,7 +119,7 @@ CREATE TABLE `payment` (
   `id` int(11) NOT NULL,
   `bill_id` int(11) NOT NULL,
   `evidence` text NOT NULL,
-  `paid_to` uuid NOT NULL,
+  `paid_to` int(11) NOT NULL,
   `paid_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -132,7 +132,7 @@ CREATE TABLE `payment` (
 CREATE TABLE `review_answer` (
   `id` int(11) NOT NULL,
   `review_id` int(11) NOT NULL,
-  `review_by` uuid NOT NULL,
+  `review_by` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `answer` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`answer`)),
   `submit_date` datetime NOT NULL,
@@ -149,7 +149,7 @@ CREATE TABLE `review_question` (
   `id` int(11) NOT NULL,
   `question` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`question`)),
   `create_date` datetime NOT NULL,
-  `create_by` uuid NOT NULL
+  `create_by` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -177,7 +177,7 @@ CREATE TABLE `table_order` (
   `table_id` varchar(50) DEFAULT NULL,
   `note` text NOT NULL,
   `status` varchar(50) DEFAULT NULL,
-  `receive_id` uuid DEFAULT NULL,
+  `receive_id` int(11) DEFAULT NULL,
   `timestamp` timestamp NOT NULL,
   `start_date` datetime NOT NULL,
   `end_date` datetime NOT NULL
@@ -213,7 +213,7 @@ CREATE TABLE `table_type` (
 --
 
 CREATE TABLE `user` (
-  `id` uuid NOT NULL DEFAULT uuid(),
+  `id` int(11) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
   `role` varchar(50) DEFAULT NULL,
@@ -355,7 +355,8 @@ ALTER TABLE `user_role`
 --
 -- AUTO_INCREMENT for dumped tables
 --
-
+ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `menu`
 --

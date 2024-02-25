@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 161.246.127.24:9053
--- Generation Time: Feb 22, 2024 at 05:05 AM
--- Server version: 10.11.6-MariaDB
--- PHP Version: 8.2.16
+-- Host: db
+-- Generation Time: Feb 25, 2024 at 02:38 PM
+-- Server version: 11.2.2-MariaDB-1:11.2.2+maria~ubu2204
+-- PHP Version: 8.2.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -40,6 +40,33 @@ CREATE TABLE `employee` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `menu`
+--
+
+CREATE TABLE `menu` (
+  `menu_id` int(11) NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `description` text NOT NULL,
+  `price` float NOT NULL,
+  `last_update_date` datetime NOT NULL,
+  `img_url` varchar(100) NOT NULL,
+  `type` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `menu_type`
+--
+
+CREATE TABLE `menu_type` (
+  `menu_type` varchar(50) NOT NULL,
+  `description` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `order_bill`
 --
 
@@ -52,7 +79,77 @@ CREATE TABLE `order_bill` (
   `order_by` uuid DEFAULT NULL,
   `price` float NOT NULL,
   `date` datetime NOT NULL,
-  `time_stamp` timestamp NOT NULL
+  `time_stamp` timestamp NOT NULL,
+  `discount` float DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_status`
+--
+
+CREATE TABLE `order_status` (
+  `order_status` varchar(50) NOT NULL,
+  `description` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_transaction`
+--
+
+CREATE TABLE `order_transaction` (
+  `id` int(11) NOT NULL,
+  `order_bill_id` int(11) NOT NULL,
+  `menu_id` int(11) NOT NULL,
+  `count` int(11) NOT NULL,
+  `menu_price` float NOT NULL,
+  `response_by` uuid NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payment`
+--
+
+CREATE TABLE `payment` (
+  `id` int(11) NOT NULL,
+  `bill_id` int(11) NOT NULL,
+  `evidence` text NOT NULL,
+  `paid_to` uuid NOT NULL,
+  `paid_date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `review_answer`
+--
+
+CREATE TABLE `review_answer` (
+  `id` int(11) NOT NULL,
+  `review_id` int(11) NOT NULL,
+  `review_by` uuid NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `answer` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`answer`)),
+  `submit_date` datetime NOT NULL,
+  `fav_score` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `review_question`
+--
+
+CREATE TABLE `review_question` (
+  `id` int(11) NOT NULL,
+  `question` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`question`)),
+  `create_date` datetime NOT NULL,
+  `create_by` uuid NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -64,9 +161,9 @@ CREATE TABLE `order_bill` (
 CREATE TABLE `table_info` (
   `table_id` varchar(50) NOT NULL,
   `table_type` varchar(50) NOT NULL,
-  `position_x` int(11) NOT NULL,
-  `position_y` int(11) NOT NULL,
-  `priority` int(11) NOT NULL
+  `position_x` int(11) DEFAULT NULL,
+  `position_y` int(11) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -126,6 +223,14 @@ CREATE TABLE `user` (
   `active` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `email`, `password`, `role`, `name`, `lastname`, `tel`, `active`) VALUES
+('181ab56c-d1a3-11ee-9e18-0242ac120002', 'admin@admin', 'admin', 'customer', 'boszz', 'kk', NULL, 1),
+('db9881d8-d1a6-11ee-9e18-0242ac120002', 'admin@adminn', 'admin', 'customer', 'boszz', 'kk', NULL, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -138,6 +243,13 @@ CREATE TABLE `user_role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Dumping data for table `user_role`
+--
+
+INSERT INTO `user_role` (`role`, `role_desc`) VALUES
+('customer', 'ลูกค้า');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -148,11 +260,66 @@ ALTER TABLE `employee`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `menu`
+--
+ALTER TABLE `menu`
+  ADD PRIMARY KEY (`menu_id`),
+  ADD KEY `title` (`title`),
+  ADD KEY `menu_ibfk_1` (`type`);
+
+--
+-- Indexes for table `menu_type`
+--
+ALTER TABLE `menu_type`
+  ADD PRIMARY KEY (`menu_type`);
+
+--
 -- Indexes for table `order_bill`
 --
 ALTER TABLE `order_bill`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `order_by` (`order_by`);
+  ADD KEY `order_by` (`order_by`),
+  ADD KEY `waiter_id` (`waiter_id`),
+  ADD KEY `status` (`status`);
+
+--
+-- Indexes for table `order_status`
+--
+ALTER TABLE `order_status`
+  ADD PRIMARY KEY (`order_status`);
+
+--
+-- Indexes for table `order_transaction`
+--
+ALTER TABLE `order_transaction`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_bill_id` (`order_bill_id`),
+  ADD KEY `response_by` (`response_by`),
+  ADD KEY `menu_id` (`menu_id`);
+
+--
+-- Indexes for table `payment`
+--
+ALTER TABLE `payment`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `bill_id` (`bill_id`),
+  ADD KEY `payment_ibfk_2` (`paid_to`);
+
+--
+-- Indexes for table `review_answer`
+--
+ALTER TABLE `review_answer`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_id` (`order_id`),
+  ADD KEY `review_by` (`review_by`),
+  ADD KEY `review_id` (`review_id`);
+
+--
+-- Indexes for table `review_question`
+--
+ALTER TABLE `review_question`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `create_by` (`create_by`);
 
 --
 -- Indexes for table `table_info`
@@ -190,7 +357,9 @@ ALTER TABLE `user`
   ADD UNIQUE KEY `email` (`email`),
   ADD KEY `email_password` (`email`,`password`),
   ADD KEY `password` (`password`),
-  ADD KEY `user_ibfk_1` (`role`);
+  ADD KEY `user_ibfk_1` (`role`),
+  ADD KEY `name` (`name`),
+  ADD KEY `lastname` (`lastname`);
 
 --
 -- Indexes for table `user_role`
@@ -203,9 +372,39 @@ ALTER TABLE `user_role`
 --
 
 --
+-- AUTO_INCREMENT for table `menu`
+--
+ALTER TABLE `menu`
+  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `order_bill`
 --
 ALTER TABLE `order_bill`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `order_transaction`
+--
+ALTER TABLE `order_transaction`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `payment`
+--
+ALTER TABLE `payment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `review_answer`
+--
+ALTER TABLE `review_answer`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `review_question`
+--
+ALTER TABLE `review_question`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -225,10 +424,47 @@ ALTER TABLE `employee`
   ADD CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`id`) REFERENCES `user` (`id`) ON UPDATE CASCADE;
 
 --
+-- Constraints for table `menu`
+--
+ALTER TABLE `menu`
+  ADD CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`type`) REFERENCES `menu_type` (`menu_type`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
 -- Constraints for table `order_bill`
 --
 ALTER TABLE `order_bill`
-  ADD CONSTRAINT `order_bill_ibfk_1` FOREIGN KEY (`order_by`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `order_bill_ibfk_1` FOREIGN KEY (`order_by`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `order_bill_ibfk_2` FOREIGN KEY (`waiter_id`) REFERENCES `employee` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `order_bill_ibfk_3` FOREIGN KEY (`status`) REFERENCES `order_status` (`order_status`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Constraints for table `order_transaction`
+--
+ALTER TABLE `order_transaction`
+  ADD CONSTRAINT `order_transaction_ibfk_1` FOREIGN KEY (`order_bill_id`) REFERENCES `order_bill` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `order_transaction_ibfk_2` FOREIGN KEY (`response_by`) REFERENCES `employee` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `order_transaction_ibfk_3` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`menu_id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Constraints for table `payment`
+--
+ALTER TABLE `payment`
+  ADD CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`bill_id`) REFERENCES `order_bill` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `payment_ibfk_2` FOREIGN KEY (`paid_to`) REFERENCES `employee` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `review_answer`
+--
+ALTER TABLE `review_answer`
+  ADD CONSTRAINT `review_answer_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `order_bill` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `review_answer_ibfk_2` FOREIGN KEY (`review_by`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `review_answer_ibfk_3` FOREIGN KEY (`review_id`) REFERENCES `review_question` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Constraints for table `review_question`
+--
+ALTER TABLE `review_question`
+  ADD CONSTRAINT `review_question_ibfk_1` FOREIGN KEY (`create_by`) REFERENCES `employee` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Constraints for table `table_info`
