@@ -4,9 +4,6 @@ include "../generalFn.php";
 include "../middleware.php";
 
 
-define("CONFIG", parse_ini_file("../../config.ini"));
-
-
 try {
     include "../connect.php";
     if (mysqli_connect_error()) {

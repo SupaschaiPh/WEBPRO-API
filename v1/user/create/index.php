@@ -5,7 +5,7 @@ include "../../middleware.php";
 
 
 
-define("CONFIG", parse_ini_file("../../../config.ini"));
+
 $RequireQuery = array("email", "password", "name", "lastname");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

@@ -4,8 +4,6 @@ include "../generalFn.php";
 include "../middleware.php";
 
 
-define("CONFIG", parse_ini_file("../../config.ini"));
-
 checkRequirekeyQuery($_POST,array("email","password"));
 try {
     $conn = mysqli_connect(CONFIG["HOST"], CONFIG["DB_USERNAME"], CONFIG["DB_PASSWORD"],CONFIG["DB_MAIN_NAME"]);
