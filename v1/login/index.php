@@ -12,8 +12,8 @@ try {
     }
     $sql = "SELECT * FROM user WHERE email='".mysqli_real_escape_string($conn,$_POST["email"])."' AND password=''".mysqli_real_escape_string($conn,$_POST["password"]);
     $user = mysqli_fetch_array(mysqli_query($conn,$sql),MYSQLI_ASSOC);
-    $_SESSION["id"] = $user["id"];
-    $_SESSION["email"] = $user["email"];
+    $_SESSION["uinfo"] = $user;
+    $_SESSION["uinfo"]["password"] = "hidden";
     //time()+60*60*24*30 will set the cookie to expire in 30 days.
     setcookie("check",password_hash($user["id"],PASSWORD_DEFAULT),time()+60*60*24);
     mysqli_close($conn);

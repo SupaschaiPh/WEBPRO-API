@@ -2,19 +2,27 @@
 include "../hearder.php";
 include "../generalFn.php";
 include "../middleware.php";
+include "../lib/header.php";
+include "../lib/user.php";
+
 
 
 try {
-    include "../connect.php";
-    if (mysqli_connect_error()) {
-        echo json_encode(array("error"=>"mysql gone away"));
+    $offset = null;
+    $limit = null;
+    if(key_exists("offset",$_GET)){
+        $offset = $_GET["offset"];
     }
-    $sql = "SELECT * FROM user JOIN user_role USING (role)";
-
-    echo json_encode(mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC));
-    mysqli_close($conn);
+    if(key_exists("limit",$_GET)){
+        $limit = $_GET["limit"];
+    }
+    echo json_encode(getUsers($limit,$offset));
 } catch (Throwable $th) {
-    http_response_code(503);
+    if (strcmp(CONFIG["SHOW_DEBUG"],"ture")) {
+        echo $th;
+    } else {
+        http_response_code(503);
+    }
 }
 
     

@@ -23,7 +23,7 @@ $client->setAccessType('offline');
 
 // Recommended, call the setState function. Using a state value can increase your assurance that
 // an incoming connection is the result of an authentication request.
-$client->setState("check=enabled");
+$client->setState("checkedbysp");
 
 // Optional, if your application knows which user is trying to authenticate, it can use this
 // parameter to provide a hint to the Google Authentication Server.
