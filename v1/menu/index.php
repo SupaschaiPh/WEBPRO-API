@@ -2,22 +2,26 @@
 include "../hearder.php";
 include "../generalFn.php";
 include "../middleware.php";
-
-
-define("CONFIG", parse_ini_file("../../config.ini"));
+include "../lib/menu.php";
 
 
 try {
-    $conn = mysqli_connect(CONFIG["HOST"], CONFIG["DB_USERNAME"], CONFIG["DB_PASSWORD"],CONFIG["DB_MAIN_NAME"]);
-    if (mysqli_connect_error()) {
-        echo json_encode(array("error"=>"mysql gone away"));
+    $offset = 0;
+    $limit = null;
+    if(key_exists("offset",$_GET)){
+        $offset = $_GET["offset"];
     }
-    $sql = "SELECT * FROM user JOIN user_role USING (role)";
+    if(key_exists("limit",$_GET)){
+        $limit = $_GET["limit"];
+    }
+    echo json_encode(getMenus($limit,$offset));
 
-    echo json_encode(mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC));
-    mysqli_close($conn);
 } catch (Throwable $th) {
-    http_response_code(503);
+    if (strcmp(CONFIG["SHOW_DEBUG"], "ture")) {
+        echo $th;
+    } else {
+        http_response_code(503);
+    }
 }
 
     

@@ -1,0 +1,16 @@
+meta {
+  name: add role
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/v1/role/add/
+  body: multipartForm
+  auth: none
+}
+
+body:multipart-form {
+  name: kmitl
+  desc: it@kmitl
+}

@@ -1,0 +1,23 @@
+meta {
+  name: get menu
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:8080/v1/menu/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "limit": 2,
+    "offset": 0
+  }
+}
+
+body:form-urlencoded {
+  offset: 2
+  limit: 0
+}

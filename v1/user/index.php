@@ -2,7 +2,6 @@
 include "../hearder.php";
 include "../generalFn.php";
 include "../middleware.php";
-include "../lib/header.php";
 include "../lib/user.php";
 
 

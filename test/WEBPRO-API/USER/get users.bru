@@ -1,0 +1,18 @@
+meta {
+  name: get users
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:8080/v1/user/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "limit": 2,
+    "offset": 1
+  }
+}

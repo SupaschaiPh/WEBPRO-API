@@ -1,9 +1,14 @@
 <?php
 
-function checkRequirekeyQuery(array $query,array $checkquery){
+function checkRequirekeyQuery(array $array,array $checkquery){
 foreach ($checkquery as $key) {
-    if(!key_exists($key,$query)){
-        echo "Error Missing query ".$key." has been require. ";
+    if(!key_exists($key,$array)){
+        echo json_encode(
+            array(
+                "status"=>"fail",
+                "mss"=>"missing key ".$key." reqiure"
+            )
+        );
         die();
     }
 }

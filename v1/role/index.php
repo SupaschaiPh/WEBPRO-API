@@ -7,8 +7,9 @@ include "../lib/role.php";
 try {
     echo json_encode(getRoles());
 } catch (Throwable $th) {
-    http_response_code(503);
+    if (strcmp(CONFIG["SHOW_DEBUG"], "ture")) {
+        echo $th;
+    } else {
+        http_response_code(503);
+    }
 }
-
-    
-

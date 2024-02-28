@@ -1,0 +1,25 @@
+meta {
+  name: create user
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/v1/user/create/
+  body: formUrlEncoded
+  auth: none
+}
+
+body:json {
+  {
+    
+  }
+}
+
+body:form-urlencoded {
+  email: test@supass.github.io
+  password: 123456
+  name: sooksan
+  lastname: stat
+  tel: 0123456789
+}
