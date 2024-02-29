@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Feb 25, 2024 at 02:38 PM
+-- Generation Time: Feb 29, 2024 at 03:08 AM
 -- Server version: 11.2.2-MariaDB-1:11.2.2+maria~ubu2204
 -- PHP Version: 8.2.15
 
@@ -53,6 +53,13 @@ CREATE TABLE `menu` (
   `type` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `menu`
+--
+
+INSERT INTO `menu` (`menu_id`, `title`, `description`, `price`, `last_update_date`, `img_url`, `type`) VALUES
+(1, 'pork chop', 'pork chop', 100, '2024-02-28 17:41:30', '', 'pork');
+
 -- --------------------------------------------------------
 
 --
@@ -63,6 +70,13 @@ CREATE TABLE `menu_type` (
   `menu_type` varchar(50) NOT NULL,
   `description` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `menu_type`
+--
+
+INSERT INTO `menu_type` (`menu_type`, `description`) VALUES
+('pork', 'หมู');
 
 -- --------------------------------------------------------
 
@@ -159,11 +173,12 @@ CREATE TABLE `review_question` (
 --
 
 CREATE TABLE `table_info` (
-  `table_id` varchar(50) NOT NULL,
+  `table_id` int(11) NOT NULL,
   `table_type` varchar(50) NOT NULL,
   `position_x` int(11) DEFAULT NULL,
   `position_y` int(11) DEFAULT NULL,
-  `priority` int(11) DEFAULT NULL
+  `priority` int(11) DEFAULT NULL,
+  `table_status` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -174,9 +189,8 @@ CREATE TABLE `table_info` (
 
 CREATE TABLE `table_order` (
   `id` int(11) NOT NULL,
-  `table_id` varchar(50) DEFAULT NULL,
+  `table_id` int(11) DEFAULT NULL,
   `note` text NOT NULL,
-  `status` varchar(50) DEFAULT NULL,
   `receive_id` uuid DEFAULT NULL,
   `timestamp` timestamp NOT NULL,
   `start_date` datetime NOT NULL,
@@ -215,7 +229,7 @@ CREATE TABLE `table_type` (
 CREATE TABLE `user` (
   `id` uuid NOT NULL DEFAULT uuid(),
   `email` varchar(100) NOT NULL,
-  `password` varchar(100) NOT NULL,
+  `password` varchar(100) DEFAULT NULL,
   `role` varchar(50) DEFAULT NULL,
   `name` varchar(100) NOT NULL,
   `lastname` varchar(100) NOT NULL,
@@ -228,8 +242,11 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `email`, `password`, `role`, `name`, `lastname`, `tel`, `active`) VALUES
+('b5a54cdf-d65a-11ee-809e-0242ac120002', 'test@supass.github.io', '123456', 'customer', 'sooksan', 'stat', '0123456789', 1),
+('6a23d228-d65e-11ee-809e-0242ac120002', 'test@supass.github.io0', '123456', 'customer', 'sooksan', 'stat', '0123456789', 1),
 ('181ab56c-d1a3-11ee-9e18-0242ac120002', 'admin@admin', 'admin', 'customer', 'boszz', 'kk', NULL, 1),
-('db9881d8-d1a6-11ee-9e18-0242ac120002', 'admin@adminn', 'admin', 'customer', 'boszz', 'kk', NULL, 1);
+('db9881d8-d1a6-11ee-9e18-0242ac120002', 'admin@adminn', 'admin', 'customer', 'boszz', 'kk', NULL, 1),
+('2f7b0267-d47d-11ee-a6e5-0242ac120002', '65070242@kmitl.ac.th', NULL, 'customer', 'Supaschai', 'Photichai', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -247,7 +264,8 @@ CREATE TABLE `user_role` (
 --
 
 INSERT INTO `user_role` (`role`, `role_desc`) VALUES
-('customer', 'ลูกค้า');
+('customer', 'ลูกค้า'),
+('kmitl', 'it@kmitl');
 
 --
 -- Indexes for dumped tables
@@ -326,7 +344,8 @@ ALTER TABLE `review_question`
 --
 ALTER TABLE `table_info`
   ADD PRIMARY KEY (`table_id`),
-  ADD KEY `table_type` (`table_type`);
+  ADD KEY `table_type` (`table_type`),
+  ADD KEY `table_status` (`table_status`);
 
 --
 -- Indexes for table `table_order`
@@ -334,7 +353,6 @@ ALTER TABLE `table_info`
 ALTER TABLE `table_order`
   ADD PRIMARY KEY (`id`),
   ADD KEY `table_id` (`table_id`),
-  ADD KEY `status` (`status`),
   ADD KEY `receive_id` (`receive_id`);
 
 --
@@ -375,7 +393,7 @@ ALTER TABLE `user_role`
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `order_bill`
@@ -406,6 +424,12 @@ ALTER TABLE `review_answer`
 --
 ALTER TABLE `review_question`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `table_info`
+--
+ALTER TABLE `table_info`
+  MODIFY `table_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `table_order`
@@ -470,15 +494,15 @@ ALTER TABLE `review_question`
 -- Constraints for table `table_info`
 --
 ALTER TABLE `table_info`
-  ADD CONSTRAINT `table_info_ibfk_1` FOREIGN KEY (`table_type`) REFERENCES `table_type` (`table_type`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `table_info_ibfk_1` FOREIGN KEY (`table_type`) REFERENCES `table_type` (`table_type`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `table_info_ibfk_2` FOREIGN KEY (`table_status`) REFERENCES `table_status` (`table_status`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Constraints for table `table_order`
 --
 ALTER TABLE `table_order`
-  ADD CONSTRAINT `table_order_ibfk_1` FOREIGN KEY (`table_id`) REFERENCES `table_info` (`table_id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `table_order_ibfk_2` FOREIGN KEY (`status`) REFERENCES `table_status` (`table_status`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `table_order_ibfk_3` FOREIGN KEY (`receive_id`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `table_order_ibfk_3` FOREIGN KEY (`receive_id`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `table_order_ibfk_4` FOREIGN KEY (`table_id`) REFERENCES `table_info` (`table_id`);
 
 --
 -- Constraints for table `user`

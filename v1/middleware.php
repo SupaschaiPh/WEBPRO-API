@@ -19,6 +19,15 @@ define(
         "/v1/role/add/",
     )
 );
+
+define(
+    "AUTH_ROUTE",
+    array(
+        "/v1/user/",
+        "/v1/user/create/",
+        "/v1/role/add/",
+    )
+);
 $json = file_get_contents("php://input",true);
 $json = json_decode($json);
 //$_SERVER["REQUEST_URI"] 
@@ -43,6 +52,13 @@ if (in_array(str_replace("index.php","",$_SERVER["SCRIPT_NAME"]), POST_ALLOW)) {
     foreach ($json as $key => $value) {
         $_POST[$key] = $value;
      }
+} 
+
+if (in_array(str_replace("index.php","",$_SERVER["SCRIPT_NAME"]), AUTH_ROUTE)) {
+    if (!(isset($_SESSION["uinfo"]) && isset($_SESSION["uinfo"]["id"]))) {
+        http_response_code(401);
+        die();
+    }
 } 
 //setcookie("check",password_hash("demoo",PASSWORD_DEFAULT),time()+60*1);
 //echo password_verify("demoo",$_COOKIE["check"])."=" ;

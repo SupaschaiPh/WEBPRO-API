@@ -2,24 +2,37 @@
 include "../hearder.php";
 include "../generalFn.php";
 include "../middleware.php";
+include "../lib/user.php";
 
 
-checkRequirekeyQuery($_POST,array("email","password"));
+
 try {
-    $conn = mysqli_connect(CONFIG["HOST"], CONFIG["DB_USERNAME"], CONFIG["DB_PASSWORD"],CONFIG["DB_MAIN_NAME"]);
-    if (mysqli_connect_error()) {
-        echo json_encode(array("error"=>"mysql gone away"));
+    checkRequirekeyQuery($_POST, array("email", "password"));
+    $user = login($_POST["email"], $_POST["password"]);
+    if ($user) {
+        $_SESSION["uinfo"] = $user;
+        unset($_SESSION["uinfo"]["password"]);
+        echo json_encode(
+            array(
+                "status"=>"success"
+            )
+        );
+    } else {
+        $_SESSION["uinfo"] = array();
+        echo json_encode(
+            array(
+                "status"=>"fail",
+                "message"=>"username or password not match"
+            )
+        );
     }
-    $sql = "SELECT * FROM user WHERE email='".mysqli_real_escape_string($conn,$_POST["email"])."' AND password=''".mysqli_real_escape_string($conn,$_POST["password"]);
-    $user = mysqli_fetch_array(mysqli_query($conn,$sql),MYSQLI_ASSOC);
-    $_SESSION["uinfo"] = $user;
-    $_SESSION["uinfo"]["password"] = "hidden";
     //time()+60*60*24*30 will set the cookie to expire in 30 days.
-    setcookie("check",password_hash($user["id"],PASSWORD_DEFAULT),time()+60*60*24);
-    mysqli_close($conn);
+    //setcookie("check",password_hash($user["id"],PASSWORD_DEFAULT),time()+60*60*24);
+    //header('Location: /');
 } catch (Throwable $th) {
-    http_response_code(503);
+    if (strcmp(CONFIG["SHOW_DEBUG"], "true") == 0) {
+        echo $th;
+    } else {
+        http_response_code(503);
+    }
 }
-
-    
-

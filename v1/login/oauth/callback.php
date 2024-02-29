@@ -13,7 +13,13 @@ if ((!isset($_SESSION["access_token"])) && isset($_GET['code'])) {
         $uinfo = $outh2->userinfo->get();
         //echo json_encode($outh2->userinfo->get());
         createUser($uinfo->email, null, $uinfo->givenName, $uinfo->familyName, null);
-        $_SESSION["uinfo"] = $uinfo;
+        
+        $user = loginByOauth($uinfo->email);
+        if($user){
+            $_SESSION["uinfo"] = $user;
+            unset($_SESSION["uinfo"]["password"]);
+        }
+
         header('Location: /');
     } else {
         header('Location: ./error.php');

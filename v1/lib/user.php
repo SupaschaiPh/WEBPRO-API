@@ -42,3 +42,21 @@ function getUsers($limit = null,$offset = 0){
     mysqli_close($conn);
     return $res;
 }
+
+
+function login($email,$password){
+    include __DIR__."/../connect.php";
+    if(!$password)return null;
+    $sql = "SELECT * FROM user WHERE email='".mysqli_real_escape_string($conn,$email)."' AND password='".mysqli_real_escape_string($conn,$password)."'";
+    $res = mysqli_fetch_array(mysqli_query($conn,$sql),MYSQLI_ASSOC);
+    mysqli_close($conn);
+    return $res;
+}
+
+function loginByOauth($email){
+    include __DIR__."/../connect.php";
+    $sql = "SELECT * FROM user WHERE email='".mysqli_real_escape_string($conn,$email)."' ;";
+    $res = mysqli_fetch_array(mysqli_query($conn,$sql),MYSQLI_ASSOC);
+    mysqli_close($conn);
+    return $res;
+}
