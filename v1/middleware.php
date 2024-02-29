@@ -43,6 +43,7 @@ if (in_array(str_replace("index.php","",$_SERVER["SCRIPT_NAME"]), GET_ALLOW)) {
        $_GET[$key] = $value;
     }
 }
+
 if (in_array(str_replace("index.php","",$_SERVER["SCRIPT_NAME"]), POST_ALLOW)) {
     if (strcmp($_SERVER["REQUEST_METHOD"], "POST") != 0) {
         http_response_code(405);
