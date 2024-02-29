@@ -4,8 +4,6 @@ include "../generalFn.php";
 include "../middleware.php";
 include "../lib/user.php";
 
-
-
 try {
     checkRequirekeyQuery($_POST, array("email", "password"));
     $user = login($_POST["email"], $_POST["password"]);
