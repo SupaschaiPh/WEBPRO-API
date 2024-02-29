@@ -14,7 +14,7 @@ try {
         $limit = $_GET["limit"];
     }
     //Logic here
-    if (isset($_SESSION["uinfo"]["role"]) && strcmp($_SESSION["role"], "customer") != 1) {
+    if (isset($_SESSION["uinfo"]) && strcmp($_SESSION["uinfo"]["role"], "customer") != 1) {
         echo json_encode(getTables($limit, $offset));
     } else {
         echo json_encode(getTableInfo($limit, $offset));

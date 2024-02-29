@@ -39,8 +39,11 @@ function getUsers($limit = null,$offset = 0){
         $sql = "SELECT * FROM user JOIN user_role USING (role);";
     }
     $res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
+    $maximumlimit = mysqli_fetch_all(mysqli_query($conn,"SELECT count(id) FROM user ;"));
+    $hold["data"] = $res;
+    $hold["limit"] = $maximumlimit[0];
     mysqli_close($conn);
-    return $res;
+    return $hold;
 }
 
 

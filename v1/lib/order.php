@@ -54,6 +54,9 @@ function getOrder($limit = null, $offset = 0)
             LEFT OUTER JOIN USER ON order_bill.order_by = user.id;';
     }
     $res = mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
+    $maximumlimit = mysqli_fetch_all(mysqli_query($conn,"SELECT count(id) FROM order_bill ;"));
+    $hold["data"] = $res;
+    $hold["limit"] = $maximumlimit[0];
     mysqli_close($conn);
-    return $res;
+    return $hold;
 }

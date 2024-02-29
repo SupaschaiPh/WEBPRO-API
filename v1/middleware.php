@@ -23,6 +23,7 @@ define(
 define(
     "AUTH_ROUTE",
     array(
+        "/v1/session/",
         "/v1/user/",
         "/v1/user/create/",
         "/v1/role/add/",
