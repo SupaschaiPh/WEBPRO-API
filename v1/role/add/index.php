@@ -11,6 +11,13 @@ try {
                 "status" => "success"
             )
         ));
+    }else{
+        echo json_encode(array_merge(
+            array(
+                "status" => "fail",
+                "message"=>"may be because duplicate role"
+            )
+        ));
     }
 } catch (Throwable $th) {
     if (strcmp(CONFIG["SHOW_DEBUG"], "ture")) {

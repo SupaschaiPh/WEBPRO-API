@@ -1,5 +1,6 @@
 <?php
 define("CONFIG", parse_ini_file(__DIR__ . "/../config.ini"));
+
 session_start();
 
 define(
@@ -9,6 +10,7 @@ define(
         "/v1/user/",
         "/v1/role/",
         "/v1/menu/",
+        "/v1/table/type/"
     )
 );
 define(
@@ -17,6 +19,8 @@ define(
         "/v1/login/",
         "/v1/user/create/",
         "/v1/role/add/",
+        "/v1/table/type/add/",
+
     )
 );
 
@@ -27,6 +31,7 @@ define(
         "/v1/user/",
         "/v1/user/create/",
         "/v1/role/add/",
+        "/v1/table/type/add/"
     )
 );
 $json = file_get_contents("php://input",true);

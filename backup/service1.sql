@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Feb 29, 2024 at 03:08 AM
+-- Generation Time: Mar 01, 2024 at 03:33 PM
 -- Server version: 11.2.2-MariaDB-1:11.2.2+maria~ubu2204
 -- PHP Version: 8.2.15
 
@@ -29,6 +29,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `employee` (
   `id` uuid NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `lastname` varchar(100) NOT NULL,
   `duty` varchar(50) NOT NULL,
   `address` text NOT NULL,
   `start_date` datetime NOT NULL,
@@ -217,8 +219,15 @@ CREATE TABLE `table_status` (
 CREATE TABLE `table_type` (
   `table_type` varchar(50) NOT NULL,
   `no_can_receive` int(11) NOT NULL,
-  `time_limt` float NOT NULL
+  `time_limit` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `table_type`
+--
+
+INSERT INTO `table_type` (`table_type`, `no_can_receive`, `time_limit`) VALUES
+('1person', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -244,7 +253,7 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`id`, `email`, `password`, `role`, `name`, `lastname`, `tel`, `active`) VALUES
 ('b5a54cdf-d65a-11ee-809e-0242ac120002', 'test@supass.github.io', '123456', 'customer', 'sooksan', 'stat', '0123456789', 1),
 ('6a23d228-d65e-11ee-809e-0242ac120002', 'test@supass.github.io0', '123456', 'customer', 'sooksan', 'stat', '0123456789', 1),
-('181ab56c-d1a3-11ee-9e18-0242ac120002', 'admin@admin', 'admin', 'customer', 'boszz', 'kk', NULL, 1),
+('181ab56c-d1a3-11ee-9e18-0242ac120002', 'admin@admin', 'admin', 'kmitl', 'boszz', 'kk', NULL, 1),
 ('db9881d8-d1a6-11ee-9e18-0242ac120002', 'admin@adminn', 'admin', 'customer', 'boszz', 'kk', NULL, 1),
 ('2f7b0267-d47d-11ee-a6e5-0242ac120002', '65070242@kmitl.ac.th', NULL, 'customer', 'Supaschai', 'Photichai', NULL, 1);
 

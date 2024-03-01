@@ -12,3 +12,18 @@ include __DIR__."/../connect.php";
     mysqli_close($conn);
     return $res;
 ```
+
+```php
+function add(){
+     include __DIR__ . "/../connect.php";
+    try {
+        $sql = ;
+        mysqli_query($conn, $sql);
+        mysqli_close($conn);
+        return true;
+    } catch (\Throwable $th) {
+        mysqli_close($conn);
+        return false;
+    }
+}
+```
