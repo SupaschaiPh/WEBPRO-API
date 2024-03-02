@@ -24,6 +24,7 @@ define(
         "/v1/user/edit/",
         "/v1/role/add/",
         "/v1/employee/add/",
+        "/v1/employee/edit/",
         "/v1/menu/add/",
         "/v1/menu/edit/",
         "/v1/menu/type/add/",
@@ -42,7 +43,19 @@ define(
         "/v1/user/edit/",
         "/v1/employee/edit/",
         "/v1/role/add/",
-        "/v1/table/type/add/"
+        "/v1/table/type/add/",
+        "/v1/menu/type/add/",
+        "/v1/table/type/add/",
+        "/v1/order/status/add/"
+    )
+);
+
+define(
+    "STAFF_ROUTE",
+    array(
+        "/v1/session/",
+        "/v1/user/create/",
+        
     )
 );
 $json = file_get_contents("php://input",true);
@@ -75,6 +88,12 @@ if (in_array(str_replace("index.php","",$_SERVER["SCRIPT_NAME"]), POST_ALLOW)) {
 if (in_array(str_replace("index.php","",$_SERVER["SCRIPT_NAME"]), AUTH_ROUTE)) {
     if (!(isset($_SESSION["uinfo"]) && isset($_SESSION["uinfo"]["id"]))) {
         http_response_code(401);
+        die();
+    }
+} 
+if (in_array(str_replace("index.php","",$_SERVER["SCRIPT_NAME"]), STAFF_ROUTE)) {
+    if (!(isset($_SESSION["uinfo"]) && isset($_SESSION["uinfo"]["role"]) && strcmp($_SESSION["uinfo"]["role"],"staff") == 0)) {
+        http_response_code(403);
         die();
     }
 } 

@@ -59,7 +59,6 @@ function editUser($uid, $name = null, $lastname = null, $tel = null, $role = nul
         return true;
     } catch (\Throwable $th) {
         mysqli_close($conn);
-        echo $th;
         return false;
     }
 }
