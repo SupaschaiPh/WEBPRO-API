@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Mar 01, 2024 at 03:33 PM
+-- Generation Time: Mar 02, 2024 at 11:39 AM
 -- Server version: 11.2.2-MariaDB-1:11.2.2+maria~ubu2204
 -- PHP Version: 8.2.15
 
@@ -29,15 +29,22 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `employee` (
   `id` uuid NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `lastname` varchar(100) NOT NULL,
-  `duty` varchar(50) NOT NULL,
-  `address` text NOT NULL,
-  `start_date` datetime NOT NULL,
-  `end_date` datetime NOT NULL,
-  `salary` float NOT NULL,
-  `profile_url` varchar(100) NOT NULL
+  `e_name` varchar(100) DEFAULT NULL,
+  `e_lastname` varchar(100) DEFAULT NULL,
+  `duty` varchar(50) DEFAULT NULL,
+  `address` text DEFAULT NULL,
+  `start_date` datetime DEFAULT NULL,
+  `end_date` datetime DEFAULT NULL,
+  `salary` float DEFAULT NULL,
+  `profile_url` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `employee`
+--
+
+INSERT INTO `employee` (`id`, `e_name`, `e_lastname`, `duty`, `address`, `start_date`, `end_date`, `salary`, `profile_url`) VALUES
+('6a23d228-d65e-11ee-809e-0242ac120002', 'sooksan', 'ss', 'ceo', 'ss', '2024-03-02 06:24:41', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -48,10 +55,10 @@ CREATE TABLE `employee` (
 CREATE TABLE `menu` (
   `menu_id` int(11) NOT NULL,
   `title` varchar(100) NOT NULL,
-  `description` text NOT NULL,
+  `description` text DEFAULT NULL,
   `price` float NOT NULL,
   `last_update_date` datetime NOT NULL,
-  `img_url` varchar(100) NOT NULL,
+  `img_url` varchar(100) DEFAULT NULL,
   `type` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -60,7 +67,8 @@ CREATE TABLE `menu` (
 --
 
 INSERT INTO `menu` (`menu_id`, `title`, `description`, `price`, `last_update_date`, `img_url`, `type`) VALUES
-(1, 'pork chop', 'pork chop', 100, '2024-02-28 17:41:30', '', 'pork');
+(1, 'pork chop', 'มันคือหมูครับ', 100, '2024-02-28 17:41:30', '', 'pork'),
+(2, 'grill fish', 'ปลาย่าง', 100, '2024-03-02 07:07:29', 'https://media.discordapp.net/attachments/1180031899964555305/1212697121271324734/IMG_4824.png', 'fish');
 
 -- --------------------------------------------------------
 
@@ -78,6 +86,7 @@ CREATE TABLE `menu_type` (
 --
 
 INSERT INTO `menu_type` (`menu_type`, `description`) VALUES
+('fish', 'ปลา'),
 ('pork', 'หมู');
 
 -- --------------------------------------------------------
@@ -109,6 +118,13 @@ CREATE TABLE `order_status` (
   `order_status` varchar(50) NOT NULL,
   `description` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_status`
+--
+
+INSERT INTO `order_status` (`order_status`, `description`) VALUES
+('paid', 'จ่ายเงินแล้ว');
 
 -- --------------------------------------------------------
 
@@ -252,8 +268,8 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `email`, `password`, `role`, `name`, `lastname`, `tel`, `active`) VALUES
 ('b5a54cdf-d65a-11ee-809e-0242ac120002', 'test@supass.github.io', '123456', 'customer', 'sooksan', 'stat', '0123456789', 1),
-('6a23d228-d65e-11ee-809e-0242ac120002', 'test@supass.github.io0', '123456', 'customer', 'sooksan', 'stat', '0123456789', 1),
-('181ab56c-d1a3-11ee-9e18-0242ac120002', 'admin@admin', 'admin', 'kmitl', 'boszz', 'kk', NULL, 1),
+('6a23d228-d65e-11ee-809e-0242ac120002', 'test@supass.github.io0', '123456', 'customer', 'sooksan', 'stattt', '0123456789', 0),
+('181ab56c-d1a3-11ee-9e18-0242ac120002', 'admin@admin', 'adminnn', 'staff', 'boszz', 'kk', NULL, 1),
 ('db9881d8-d1a6-11ee-9e18-0242ac120002', 'admin@adminn', 'admin', 'customer', 'boszz', 'kk', NULL, 1),
 ('2f7b0267-d47d-11ee-a6e5-0242ac120002', '65070242@kmitl.ac.th', NULL, 'customer', 'Supaschai', 'Photichai', NULL, 1);
 
@@ -274,7 +290,8 @@ CREATE TABLE `user_role` (
 
 INSERT INTO `user_role` (`role`, `role_desc`) VALUES
 ('customer', 'ลูกค้า'),
-('kmitl', 'it@kmitl');
+('kmitl', 'it@kmitl'),
+('staff', 'staffstaffstaffstaffstaff');
 
 --
 -- Indexes for dumped tables
@@ -284,7 +301,9 @@ INSERT INTO `user_role` (`role`, `role_desc`) VALUES
 -- Indexes for table `employee`
 --
 ALTER TABLE `employee`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `name` (`e_name`),
+  ADD KEY `lastname` (`e_lastname`);
 
 --
 -- Indexes for table `menu`
@@ -402,7 +421,7 @@ ALTER TABLE `user_role`
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `order_bill`
