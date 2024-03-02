@@ -1,0 +1,19 @@
+meta {
+  name: add table type
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/v1/table/type/add/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "table_type":"1person",
+    "no_can_receive":1,
+    "time_limit":0
+  }
+}

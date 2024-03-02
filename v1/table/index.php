@@ -5,17 +5,22 @@ include "../middleware.php";
 include "../lib/table.php";
 
 try {
-    $offset = null;
+    $offset = 0;
     $limit = null;
-    if (key_exists("offset", $_GET)) {
+    $filters = null;
+    if(key_exists("offset",$_GET)){
         $offset = $_GET["offset"];
     }
-    if (key_exists("limit", $_GET)) {
+    if(key_exists("limit",$_GET)){
         $limit = $_GET["limit"];
     }
+    if(key_exists("filters",$_GET)){
+        $filters = $_GET["filters"];
+        $filters = json_encode($filters,true);
+    }
     //Logic here
-    if (isset($_SESSION["uinfo"]) && strcmp($_SESSION["uinfo"]["role"], "customer") != 1) {
-        echo json_encode(getTables($limit, $offset));
+    if (isset($_SESSION["uinfo"]) && strcmp($_SESSION["uinfo"]["role"], "customer") != 0) {
+        echo json_encode(getTables($limit, $offset,$filters));
     } else {
         echo json_encode(getTableInfo($limit, $offset));
     }

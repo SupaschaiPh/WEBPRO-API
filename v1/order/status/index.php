@@ -15,7 +15,7 @@ try {
         $limit = $_GET["limit"];
     }
     //Logic here
-    echo json_encode(getOrder($limit,$offset));
+    echo json_encode(getOrderStatus($limit,$offset));
 } catch (Throwable $th) {
     if (strcmp(CONFIG["SHOW_DEBUG"],"true") == 0) {
         echo $th;

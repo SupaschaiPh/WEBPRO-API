@@ -1,6 +1,6 @@
 <?php
-
-function getTables($limit = null, $offset = 0)
+include __DIR__ . "/../lib/util.php";
+function getTables($limit = null, $offset = 0, $filters = null)
 {
     include __DIR__ . "/../connect.php";
     if ($offset < 0) {
@@ -11,9 +11,9 @@ function getTables($limit = null, $offset = 0)
     }
 
     if ($limit != null) {
-        $sql = "SELECT * FROM table_info LEFT OUTER JOIN table_order USING (table_id) LIMIT " . intval($limit) . " OFFSET " . intval($offset) . ";";
+        $sql = "SELECT * FROM table_info LEFT OUTER JOIN table_order USING (table_id) LEFT OUTER JOIN user ON table_order.receive_id=user.id ". filterObjToSQL($conn, $filters) . " LIMIT " . intval($limit) . " OFFSET " . intval($offset) . ";";
     } else {
-        $sql = "SELECT * FROM table_info LEFT OUTER JOIN table_order USING (table_id);";
+        $sql = "SELECT * FROM table_info LEFT OUTER JOIN table_order USING (table_id) LEFT OUTER JOIN user ON table_order.receive_id=user.id ". filterObjToSQL($conn, $filters) . ";";
     }
     $res = mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
     $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(table_id) FROM table_info ;"));
@@ -47,11 +47,28 @@ function getTableInfo($limit = null, $offset = 0)
 }
 
 
-function addTable()
+function addTable($table_type,$position_x = null,$position_y = null,$priority = null,$table_status=null)
 {
     include __DIR__ . "/../connect.php";
     try {
-        $sql = "";
+        $sql = "
+        INSERT INTO `table_info`(
+            `table_id`,
+            `table_type`,
+            `position_x`,
+            `position_y`,
+            `priority`,
+            `table_status`
+        )
+        VALUES(
+            NULL,
+            '" . mysqli_real_escape_string($conn, $table_type) . "',
+            ".setOrNull($conn,$position_x).",
+            ".setOrNull($conn,$position_y).",
+            ".setOrNull($conn,$priority).",
+            ".setOrNull($conn,$table_status)."
+        )
+        ";
         mysqli_query($conn, $sql);
         mysqli_close($conn);
         return true;

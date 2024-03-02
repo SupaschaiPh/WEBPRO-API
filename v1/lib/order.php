@@ -107,7 +107,7 @@ function getOrderStatus($limit = null, $offset = 0, $filters = null)
 }
 
 
-function addOrderStatus($order_status, $description= null)
+function addOrderStatus($order_status, $description = null)
 {
     include __DIR__ . "/../connect.php";
     try {
@@ -118,7 +118,46 @@ function addOrderStatus($order_status, $description= null)
         return true;
     } catch (\Throwable $th) {
         mysqli_close($conn);
-        echo $th;
+        return false;
+    }
+}
+function addOrderBill($table_id, $description, $status, $waiter_id = null, $order_by = null, $price = 0, $discount = 0)
+{
+    if (
+        ((is_int($price) || is_float($price))) && 
+        (isset($discount)&&(is_int($discount) || is_float($discount)))
+    ) return false;
+    if(!isset($discount))$discount = 0;
+    include __DIR__ . "/../connect.php";
+    try {
+        $sql = "INSERT INTO `order_bill`(
+            `id`,
+            `table_id`,
+            `description`,
+            `status`,
+            `waiter_id`,
+            `order_by`,
+            `price`,
+            `date`,
+            `time_stamp`,
+            `discount`
+        )
+        VALUES(
+            NULL,
+            '" . mysqli_real_escape_string($conn, $table_id) . "',
+            " . setOrNull($conn, $description) . ",
+            '" . mysqli_real_escape_string($conn, $status) . "',
+            " . setOrNull($conn, $waiter_id) . ",
+            " . setOrNull($conn, $order_by) . ",
+            '" . setOrNull($conn, $price) . "',
+            '" . getSQLdatetimeFormat() . "',
+            NOW(), 
+            '" . setOrNull($conn, $discount) . "');";
+        mysqli_query($conn, $sql);
+        mysqli_close($conn);
+        return true;
+    } catch (\Throwable $th) {
+        mysqli_close($conn);
         return false;
     }
 }

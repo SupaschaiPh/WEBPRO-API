@@ -23,11 +23,15 @@ function filterObjToSQL($conn, $filterObjStr)
     $isFirstFilter = true;
     foreach ($filterObjStr as $filter) {
         $filterField = mysqli_real_escape_string($conn, $filter['key']);
-        $filterValue = mysqli_real_escape_string($conn, $filter['filter']);
+        $filterValue = $filter['filter'];
         if (!$isFirstFilter) {
             $whereClause .= " AND ";
         }
-        $whereClause .= "$filterField LIKE '%$filterValue%'";
+        if(isset($filterValue)){
+            $whereClause .= "$filterField LIKE '%".mysqli_real_escape_string($conn,$filterValue)."%'";
+        }else{
+            $whereClause .= "$filterField IS NULL";
+        }
         $isFirstFilter = false;
     }
     if ($whereClause) {

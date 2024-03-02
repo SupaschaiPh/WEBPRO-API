@@ -1,4 +1,5 @@
 <?php
+include __DIR__ . "/../lib/util.php";
 function getRoles()
 {
     include __DIR__ . "/../connect.php";
