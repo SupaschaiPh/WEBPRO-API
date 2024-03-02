@@ -60,3 +60,11 @@ function sortObjToSQL($conn, $sortobjStr)
     }
     return $orderBy;
 }
+
+function setSQLSet($conn,$sqlStr,$key,$val){
+    if(isset($val) || $val!=null){
+        if(isset($sqlStr) && strcmp($sqlStr,"")!=0){ $sqlStr .= ","; }
+        $sqlStr .= "`". mysqli_real_escape_string($conn, $key) ."` = '" . mysqli_real_escape_string($conn, $val) . "'";
+    }
+    return $sqlStr;
+}

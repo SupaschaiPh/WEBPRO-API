@@ -15,6 +15,15 @@ function checkRequirekeyQuery(array $array, array $checkquery)
     }
 }
 
+function bodyCanNull($array,$keys){
+    foreach ($keys as $key) {
+        if (!key_exists($key, $array)) {
+            $array[$key] = null;
+        }
+    }
+    return $array;
+}
+
 function uploadFileHandler($bucket_dir = "/../../bucket/upload/")
 {
     $target_dir = __DIR__ .$bucket_dir;

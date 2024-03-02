@@ -23,6 +23,7 @@ define(
         "/v1/role/add/",
         "/v1/employee/add/",
         "/v1/menu/add/",
+        "/v1/menu/edit/",
         "/v1/menu/type/add/",
         "/v1/table/type/add/",
 

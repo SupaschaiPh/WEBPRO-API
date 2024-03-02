@@ -1,6 +1,6 @@
 <?php
 
-include __DIR__ ."/../lib/util.php";
+include __DIR__ . "/../lib/util.php";
 
 function createUser($email, $password, $name, $lastname, $tel)
 {
@@ -31,24 +31,26 @@ VALUES (
     return $res;
 }
 
-function editUser($uid, $name, $lastname, $tel,$role,$active = 1)
+function editUser($uid, $name = null, $lastname = null, $tel = null, $role = null, $active = 1)
 {
     #check username
     if (!($active == 0 || $active == 1)) {
-        return false;
+        return $active = 1;
     }
     include __DIR__ . "/../connect.php";
 
     try {
+        $setsql = "";
+        $setsql = setSQLSet($conn, $setsql, "name", $name);
+        $setsql = setSQLSet($conn, $setsql, "lastname", $lastname);
+        $setsql = setSQLSet($conn, $setsql, "tel", $tel);
+        $setsql = setSQLSet($conn, $setsql, "role", $role);
+        $setsql = setSQLSet($conn, $setsql, "active", $active);
         $sql = "
     UPDATE
     `user`
     SET
-        `name` = '" . mysqli_real_escape_string($conn, $name) . "',
-        `lastname` = '" . mysqli_real_escape_string($conn, $lastname) . "',
-        `tel` = " . (isset($tel) ? ("'" . mysqli_real_escape_string($conn, $tel) . "'") : "NULL") . ",
-        `role` = '" . mysqli_real_escape_string($conn, $role) . "',        
-        `active` = '" . mysqli_real_escape_string($conn, $active) . "'
+        " . $setsql . "
     WHERE
         `user`.`id` = '" .  mysqli_real_escape_string($conn, $uid)  . "'
     ";
@@ -57,6 +59,7 @@ function editUser($uid, $name, $lastname, $tel,$role,$active = 1)
         return true;
     } catch (\Throwable $th) {
         mysqli_close($conn);
+        echo $th;
         return false;
     }
 }
@@ -88,7 +91,7 @@ function changePassword($uid, $oldPassword = null, $newPassword = "")
     }
 }
 
-function getUsers($limit = null, $offset = 0,$filters=null)
+function getUsers($limit = null, $offset = 0, $filters = null)
 {
     include __DIR__ . "/../connect.php";
     if ($offset < 0) {
@@ -99,12 +102,12 @@ function getUsers($limit = null, $offset = 0,$filters=null)
     }
 
     if ($limit != null) {
-        $sql = "SELECT * FROM user JOIN user_role USING (role) ".filterObjToSQL($conn,$filters)." LIMIT " . intval($limit) . " OFFSET " . intval($offset);
+        $sql = "SELECT * FROM user JOIN user_role USING (role) " . filterObjToSQL($conn, $filters) . " LIMIT " . intval($limit) . " OFFSET " . intval($offset);
     } else {
-        $sql = "SELECT * FROM user JOIN user_role USING (role) ".filterObjToSQL($conn,$filters)." ;";
+        $sql = "SELECT * FROM user JOIN user_role USING (role) " . filterObjToSQL($conn, $filters) . " ;";
     }
     $res = mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
-    $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(id) FROM user ".filterObjToSQL($conn,$filters)." ;"));
+    $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(id) FROM user " . filterObjToSQL($conn, $filters) . " ;"));
     $hold["data"] = $res;
     $hold["limit"] = $maximumlimit[0];
     mysqli_close($conn);

@@ -1,7 +1,7 @@
 <?php
 include __DIR__ . "/../lib/util.php";
 
-function getMenus($limit = null, $offset = 0)
+function getMenus($limit = null, $offset = 0,$filters = null)
 {
     include __DIR__ . "/../connect.php";
     if ($offset < 0) {
@@ -11,13 +11,16 @@ function getMenus($limit = null, $offset = 0)
         $limit = 0;
     }
     if ($limit != null) {
-        $sql = "SELECT * FROM menu  LIMIT " . intval($limit) . " OFFSET " . intval($offset) . ";";
+        $sql = "SELECT * FROM menu " . filterObjToSQL($conn, $filters) . "  LIMIT " . intval($limit) . " OFFSET " . intval($offset) . ";";
     } else {
-        $sql = "SELECT * FROM menu ;";
+        $sql = "SELECT * FROM menu " . filterObjToSQL($conn, $filters) . " ;";
     }
     $res = mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
+    $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(menu_id) FROM menu " . filterObjToSQL($conn, $filters) . " ;"));
+    $hold["data"] = $res;
+    $hold["limit"] = $maximumlimit[0];
     mysqli_close($conn);
-    return $res;
+    return $hold;
 }
 
 function getMenuType($limit = null, $offset = 0)
@@ -73,12 +76,40 @@ function addMenu($title, $description, $price, $img_url, $type)
         return false;
     }
 }
+
+
 function addMenuType($menu_type, $description)
 {
     include __DIR__ . "/../connect.php";
     try {
         $sql = "INSERT INTO `menu_type`(`menu_type`, `description`)
         VALUES('" . mysqli_real_escape_string($conn, $menu_type) . "', '" . mysqli_real_escape_string($conn, $description) . "');";
+        mysqli_query($conn, $sql);
+        mysqli_close($conn);
+        return true;
+    } catch (\Throwable $th) {
+        mysqli_close($conn);
+        return false;
+    }
+}
+
+function editMenu($id,$title = null, $description = null, $price = null, $img_url = null, $type = null)
+{
+    if(isset($price) && !(is_int($price) || is_float($price)))return false;
+    include __DIR__ . "/../connect.php";
+    $setsql = "";
+    $setsql = setSQLSet($conn, $setsql, "title", $title);
+    $setsql = setSQLSet($conn, $setsql, "description", $description);
+    $setsql = setSQLSet($conn, $setsql, "price", $price);
+    $setsql = setSQLSet($conn, $setsql, "img_url", $img_url);
+    $setsql = setSQLSet($conn, $setsql, "type", $type);
+    try {
+        $sql = "UPDATE
+                    `menu`
+                SET
+                    ".$setsql."
+                WHERE
+                    `menu`.`menu_id` = ".mysqli_real_escape_string($conn,$id).";";
         mysqli_query($conn, $sql);
         mysqli_close($conn);
         return true;

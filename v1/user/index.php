@@ -7,7 +7,7 @@ include "../lib/user.php";
 
 
 try {
-    $offset = null;
+    $offset = 0;
     $limit = null;
     $filters = null;
     if(key_exists("offset",$_GET)){
@@ -22,7 +22,7 @@ try {
     }
     echo json_encode(getUsers($limit,$offset,$filters));
 } catch (Throwable $th) {
-    if (strcmp(CONFIG["SHOW_DEBUG"],"true")) {
+    if (strcmp(CONFIG["SHOW_DEBUG"],"true") == 0) {
         echo $th;
     } else {
         http_response_code(503);

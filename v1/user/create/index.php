@@ -22,7 +22,7 @@ try {
             "mss" => "This usename may haved in DB"
         ));
 } catch (Throwable $th) {
-    if (strcmp(CONFIG["SHOW_DEBUG"], "true")) {
+    if (strcmp(CONFIG["SHOW_DEBUG"], "true") == 0) {
         echo $th;
     } else {
         http_response_code(503);
