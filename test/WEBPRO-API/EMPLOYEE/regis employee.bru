@@ -5,7 +5,17 @@ meta {
 }
 
 post {
-  url: 
-  body: none
+  url: http://localhost:8080/v1/employee/add/
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "id":"6a23d228-d65e-11ee-809e-0242ac120002",
+    "name":"sooksan",
+    "lastname":"ss",
+    "address":"kmitl",
+    "duty":"ceo"
+  }
 }
