@@ -18,7 +18,7 @@ function getMenus($limit = null, $offset = 0,$filters = null)
     $res = mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
     $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(menu_id) FROM menu " . filterObjToSQL($conn, $filters) . " ;"));
     $hold["data"] = $res;
-    $hold["limit"] = $maximumlimit[0];
+    $hold["limit"] = $maximumlimit[0][0];
     mysqli_close($conn);
     return $hold;
 }
@@ -41,7 +41,7 @@ function getMenuType($limit = null, $offset = 0)
     $res = mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
     $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(menu_type) FROM menu_type ;"));
     $hold["data"] = $res;
-    $hold["limit"] = $maximumlimit[0];
+    $hold["limit"] = $maximumlimit[0][0];
     mysqli_close($conn);
     return $hold;
 }

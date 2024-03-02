@@ -11,7 +11,9 @@ define(
         "/v1/role/",
         "/v1/menu/",
         "/v1/employee/",
-        "/v1/table/type/"
+        "/v1/table/type/",
+        "/v1/order/",
+        "/v1/order/status/"
     )
 );
 define(
@@ -26,6 +28,7 @@ define(
         "/v1/menu/edit/",
         "/v1/menu/type/add/",
         "/v1/table/type/add/",
+        "/v1/order/status/add/"
 
     )
 );

@@ -18,7 +18,7 @@ function getTables($limit = null, $offset = 0)
     $res = mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
     $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(table_id) FROM table_info ;"));
     $hold["data"] = $res;
-    $hold["limit"] = $maximumlimit[0];
+    $hold["limit"] = $maximumlimit[0][0];
     mysqli_close($conn);
     return $hold;
 }
@@ -41,7 +41,7 @@ function getTableInfo($limit = null, $offset = 0)
     $res = mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
     $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(table_id) FROM table_info ;"));
     $hold["data"] = $res;
-    $hold["limit"] = $maximumlimit[0];
+    $hold["limit"] = $maximumlimit[0][0];
     mysqli_close($conn);
     return $hold;
 }
@@ -79,7 +79,7 @@ function getTableType($limit = null, $offset = 0)
     $res = mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
     $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(table_id) FROM table_info ;"));
     $hold["data"] = $res;
-    $hold["limit"] = $maximumlimit[0];
+    $hold["limit"] = $maximumlimit[0][0];
     mysqli_close($conn);
     return $hold;
 }
