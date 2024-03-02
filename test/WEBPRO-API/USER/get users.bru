@@ -13,7 +13,13 @@ get {
 body:json {
   {
     "limit": 2,
-    "offset": 1
+    "offset": 1,
+    "filters": [
+      {
+        "key": "email",
+        "filter": "t"
+      }
+    ]
   }
 }
 

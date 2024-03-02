@@ -18,6 +18,7 @@ define(
     array(
         "/v1/login/",
         "/v1/user/create/",
+        "/v1/user/edit/",
         "/v1/role/add/",
         "/v1/table/type/add/",
 
@@ -30,6 +31,7 @@ define(
         "/v1/session/",
         "/v1/user/",
         "/v1/user/create/",
+        "/v1/user/edit/",
         "/v1/role/add/",
         "/v1/table/type/add/"
     )

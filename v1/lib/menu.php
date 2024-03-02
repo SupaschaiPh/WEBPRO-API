@@ -32,6 +32,9 @@ function getMenuType($limit = null,$offset = 0){
     return $hold;
 }
 
-function addMenu(){
+function addMenu($title,$description,$price,$img_url,$type){
+
+}
+function addMenuType($menu_type,$description){
 
 }

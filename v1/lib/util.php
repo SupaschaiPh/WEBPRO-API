@@ -1,0 +1,62 @@
+<?php
+function setOrNull($conn, $query)
+{
+    if (isset($query) || strcmp($query, "") == 0) {
+        return "NULL";
+    }
+    return "'" . mysqli_real_escape_string($conn, $query) . "'";
+}
+
+function getSQLdatetimeFormat()
+{
+    $timestamp = time();
+    $dateTime = new DateTime("@$timestamp");
+    $sqlDatetime = $dateTime->format('Y-m-d H:i:s');
+    return $sqlDatetime;
+}
+
+function filterObjToSQL($conn, $filterObjStr)
+{
+    if (!$filterObjStr) return "";
+    $filterObjStr = json_decode($filterObjStr,true);
+    $whereClause = "";
+    $isFirstFilter = true;
+    foreach ($filterObjStr as $filter) {
+        $filterField = mysqli_real_escape_string($conn, $filter['key']);
+        $filterValue = mysqli_real_escape_string($conn, $filter['filter']);
+        if (!$isFirstFilter) {
+            $whereClause .= " AND ";
+        }
+        $whereClause .= "$filterField LIKE '%$filterValue%'";
+        $isFirstFilter = false;
+    }
+    if ($whereClause) {
+        $whereClause = " WHERE $whereClause";
+    } else {
+        $whereClause = "";
+    }
+    return $whereClause;
+}
+
+function sortObjToSQL($conn, $sortobjStr)
+{
+    if (!$sortobjStr) return "";
+    $sortobjStr = json_decode($sortobjStr,true);
+    $orderBy = "";
+    $isFirstSort = true;
+    foreach ($sortobjStr as $sort) {
+        $sortField = mysqli_real_escape_string($conn, $sort['key']);
+        $sortDirection = mysqli_real_escape_string($conn, $sort['sort'] === 'asc' ? 'ASC' : 'DESC');
+        if (!$isFirstSort) {
+            $orderBy .= ", ";
+        }
+        $orderBy .= "$sortField $sortDirection";
+        $isFirstSort = false;
+    }
+    if ($orderBy) {
+        $orderBy = " ORDER BY $orderBy";
+    } else {
+        $orderBy = "";
+    }
+    return $orderBy;
+}
