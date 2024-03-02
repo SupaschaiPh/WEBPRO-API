@@ -5,7 +5,18 @@ meta {
 }
 
 get {
-  url: 
-  body: none
+  url: http://localhost:8080/v1/employee/
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "filters": [
+      {
+        "key": "email",
+        "filter": "s"
+      }
+    ]
+  }
 }

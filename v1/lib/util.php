@@ -1,7 +1,7 @@
 <?php
 function setOrNull($conn, $query)
 {
-    if (isset($query) || strcmp($query, "") == 0) {
+    if (!isset($query) || strcmp($query, "") == 0) {
         return "NULL";
     }
     return "'" . mysqli_real_escape_string($conn, $query) . "'";
@@ -12,7 +12,7 @@ function getSQLdatetimeFormat()
     $timestamp = time();
     $dateTime = new DateTime("@$timestamp");
     $sqlDatetime = $dateTime->format('Y-m-d H:i:s');
-    return $sqlDatetime;
+    return "'".$sqlDatetime."'";
 }
 
 function filterObjToSQL($conn, $filterObjStr)

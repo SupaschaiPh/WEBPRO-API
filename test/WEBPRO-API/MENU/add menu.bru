@@ -1,0 +1,21 @@
+meta {
+  name: add menu
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:8080/v1/menu/add/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title":"grill fish",
+    "desc":"ปลาย่าง",
+    "price":100,
+    "img_url":"https://media.discordapp.net/attachments/1180031899964555305/1212697121271324734/IMG_4824.png",
+    "type":"fish"
+  }
+}

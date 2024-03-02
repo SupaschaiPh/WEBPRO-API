@@ -1,6 +1,6 @@
 <?php
 
-include "../lib/util.php";
+include __DIR__ ."/../lib/util.php";
 
 function createUser($email, $password, $name, $lastname, $tel)
 {
@@ -33,12 +33,12 @@ VALUES (
 
 function editUser($uid, $name, $lastname, $tel,$role,$active = 1)
 {
-    include __DIR__ . "/../connect.php";
     #check username
     if (!($active == 0 || $active == 1)) {
-        mysqli_close($conn);
         return false;
     }
+    include __DIR__ . "/../connect.php";
+
     try {
         $sql = "
     UPDATE

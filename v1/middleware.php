@@ -10,6 +10,7 @@ define(
         "/v1/user/",
         "/v1/role/",
         "/v1/menu/",
+        "/v1/employee/",
         "/v1/table/type/"
     )
 );
@@ -20,6 +21,9 @@ define(
         "/v1/user/create/",
         "/v1/user/edit/",
         "/v1/role/add/",
+        "/v1/employee/add/",
+        "/v1/menu/add/",
+        "/v1/menu/type/add/",
         "/v1/table/type/add/",
 
     )
@@ -32,6 +36,7 @@ define(
         "/v1/user/",
         "/v1/user/create/",
         "/v1/user/edit/",
+        "/v1/employee/edit/",
         "/v1/role/add/",
         "/v1/table/type/add/"
     )
