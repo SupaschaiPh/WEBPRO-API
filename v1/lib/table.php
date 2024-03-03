@@ -17,7 +17,7 @@ function getTables($limit = null, $offset = 0, $filters = null)
         $sql = "SELECT * FROM table_info LEFT OUTER JOIN table_order USING (table_id) LEFT OUTER JOIN user ON table_order.receive_id=user.id ". filterObjToSQL($conn, $filters) . ";";
     }
     $res = mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
-    $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(table_id) FROM table_info ". filterObjToSQL($conn, $filters) . " ;"));
+    $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(table_id) FROM table_info  LEFT OUTER JOIN table_order USING (table_id) ". filterObjToSQL($conn, $filters) . " ;"));
     $hold["data"] = $res;
     $hold["limit"] = $maximumlimit[0][0];
     mysqli_close($conn);
