@@ -20,7 +20,6 @@ try {
     if (strcmp(CONFIG["SHOW_DEBUG"],"true") == 0) {
         echo $th;
     } else {
-        echo $th;
         http_response_code(503);
     }
 }

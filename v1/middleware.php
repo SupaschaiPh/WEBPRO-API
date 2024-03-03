@@ -28,6 +28,7 @@ define(
         "/v1/employee/edit/",
         "/v1/menu/add/",
         "/v1/menu/edit/",
+        "/v1/menu/remove/",
         "/v1/menu/type/add/",
         "/v1/table/add/",
         "/v1/table/type/add/",

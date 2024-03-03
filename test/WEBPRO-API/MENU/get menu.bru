@@ -12,8 +12,15 @@ get {
 
 body:json {
   {
-    "limit": 2,
-    "offset": 0
+    "limit": 3,
+    "offset": 0,
+    "filters":[
+      {
+        "key":"description",
+        "filter":"",
+        "type":"notnull"
+      }
+    ]
   }
 }
 

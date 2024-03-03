@@ -149,10 +149,10 @@ function addOrderBill($table_id, $description, $status, $waiter_id = null, $orde
             '" . mysqli_real_escape_string($conn, $status) . "',
             " . setOrNull($conn, $waiter_id) . ",
             " . setOrNull($conn, $order_by) . ",
-            '" . setOrNull($conn, $price) . "',
-            '" . getSQLdatetimeFormat() . "',
+            " . setOrNull($conn, $price) . ",
+            " . getSQLdatetimeFormat() . ",
             NOW(), 
-            '" . setOrNull($conn, $discount) . "');";
+            " . setOrNull($conn, $discount) . ");";
         mysqli_query($conn, $sql);
         mysqli_close($conn);
         return true;

@@ -24,10 +24,37 @@ function filterObjToSQL($conn, $filterObjStr)
     foreach ($filterObjStr as $filter) {
         $filterField = mysqli_real_escape_string($conn, $filter['key']);
         $filterValue = $filter['filter'];
+        $filterType = "";
+
         if (!$isFirstFilter) {
             $whereClause .= " AND ";
         }
-        if(isset($filterValue)){
+        if(isset( $filter['type'])){
+            $filterType  = $filter['type'];
+            switch ($filterType) {
+                case 'equal':
+                    $whereClause .= "$filterField = ".mysqli_real_escape_string($conn,$filterValue)."";
+                    break;
+                case 'in':
+                    $whereClause .= "$filterField IN ".mysqli_real_escape_string($conn,$filterValue)."";
+                    break;
+                case 'notin':
+                    $whereClause .= "$filterField NOT IN ".mysqli_real_escape_string($conn,$filterValue)."";
+                    break;
+                case 'is':
+                    $whereClause .= "$filterField IS ".mysqli_real_escape_string($conn,$filterValue)."";
+                    break;
+                case 'null':
+                    $whereClause .= "$filterField IS NULL";
+                    break;
+                case 'notnull':
+                    $whereClause .= "$filterField IS NOT NULL";
+                    break;
+                default:
+                    break;
+            }
+        }
+        else if(isset($filterValue)){
             $whereClause .= "$filterField LIKE '%".mysqli_real_escape_string($conn,$filterValue)."%'";
         }else{
             $whereClause .= "$filterField IS NULL";

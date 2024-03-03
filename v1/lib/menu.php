@@ -93,9 +93,11 @@ function addMenuType($menu_type, $description)
     }
 }
 
-function editMenu($id,$title = null, $description = null, $price = null, $img_url = null, $type = null)
+function editMenu($id,$title = null, $description = null, $price = null, $img_url = null, $type = null,$active = 1)
 {
     if(isset($price) && !(is_int($price) || is_float($price)))return false;
+    if(isset($active) && !($active==0 || $active==1))return false;
+    if(!isset($active))$active=1;
     include __DIR__ . "/../connect.php";
     $setsql = "";
     $setsql = setSQLSet($conn, $setsql, "title", $title);
@@ -103,6 +105,7 @@ function editMenu($id,$title = null, $description = null, $price = null, $img_ur
     $setsql = setSQLSet($conn, $setsql, "price", $price);
     $setsql = setSQLSet($conn, $setsql, "img_url", $img_url);
     $setsql = setSQLSet($conn, $setsql, "type", $type);
+    $setsql = setSQLSet($conn, $setsql, "active", $active);
     try {
         $sql = "UPDATE
                     `menu`
@@ -118,3 +121,4 @@ function editMenu($id,$title = null, $description = null, $price = null, $img_ur
         return false;
     }
 }
+
