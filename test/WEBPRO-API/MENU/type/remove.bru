@@ -1,0 +1,17 @@
+meta {
+  name: remove
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:8080/v1/menu/type/remove/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "menu_type":"fish"
+  }
+}

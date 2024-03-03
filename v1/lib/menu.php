@@ -23,7 +23,7 @@ function getMenus($limit = null, $offset = 0,$filters = null)
     return $hold;
 }
 
-function getMenuType($limit = null, $offset = 0)
+function getMenuType($limit = null, $offset = 0,$filters = null)
 {
     include __DIR__ . "/../connect.php";
     if ($offset < 0) {
@@ -33,10 +33,9 @@ function getMenuType($limit = null, $offset = 0)
         $limit = 0;
     }
     if ($limit != null) {
-
-        $sql = "SELECT * FROM menu_type  LIMIT " . intval($limit) . " OFFSET " . intval($offset) . ";";
+        $sql = "SELECT * FROM menu_type " . filterObjToSQL($conn, $filters) . "  LIMIT " . intval($limit) . " OFFSET " . intval($offset) . ";";
     } else {
-        $sql = "SELECT * FROM menu_type ;";
+        $sql = "SELECT * FROM menu_type " . filterObjToSQL($conn, $filters) . " ;";
     }
     $res = mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
     $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(menu_type) FROM menu_type ;"));
@@ -112,7 +111,7 @@ function editMenu($id,$title = null, $description = null, $price = null, $img_ur
                 SET
                     ".$setsql."
                 WHERE
-                    `menu`.`menu_id` = ".mysqli_real_escape_string($conn,$id).";";
+                    `menu`.`menu_id` = '".mysqli_real_escape_string($conn,$id)."';";
         mysqli_query($conn, $sql);
         mysqli_close($conn);
         return true;
@@ -122,3 +121,27 @@ function editMenu($id,$title = null, $description = null, $price = null, $img_ur
     }
 }
 
+
+function editMenuType($menu_type, $description,$new_menu_type ,$active=null)
+{
+    if(isset($active) && !($active==0 || $active==1))return false;
+    include __DIR__ . "/../connect.php";
+    $setsql = "";
+    $setsql = setSQLSet($conn, $setsql, "description", $description);
+    $setsql = setSQLSet($conn, $setsql, "menu_type", $new_menu_type);
+    $setsql = setSQLSet($conn, $setsql, "active", $active);
+
+    try {
+        $sql = "UPDATE
+                    `menu_type`
+                SET
+                    ".$setsql."
+                WHERE
+                `menu_type`.menu_type = '".mysqli_real_escape_string($conn,$menu_type)."';";
+        mysqli_query($conn, $sql);
+        return checkItEdited($conn);
+    } catch (\Throwable $th) {
+        mysqli_close($conn);
+        return false;
+    }
+}

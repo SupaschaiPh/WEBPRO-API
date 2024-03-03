@@ -16,7 +16,7 @@ try {
         echo json_encode(
             array(
                 "status" => "fail",
-                "message"=>"table_type or table_status not match"
+                "message"=>"table_type or table_status not match , position_x or position_y or priority are wrong type"
             )
         );
     }

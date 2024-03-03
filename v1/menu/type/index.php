@@ -6,7 +6,19 @@ include "../../lib/menu.php";
 
 
 try {
-    echo json_encode(getMenuType());
+    $offset = 0;
+    $limit = null;
+    $filters = null;
+    if (key_exists("offset", $_GET)) {
+        $offset = $_GET["offset"];
+    }
+    if (key_exists("limit", $_GET)) {
+        $limit = $_GET["limit"];
+    }
+    if (key_exists("filters", $_GET) && is_array($_GET["filters"])) {
+        $filters = json_encode($_GET["filters"], true);
+    }
+    echo json_encode(getMenuType($limit,$offset,$filters));
 
 } catch (Throwable $th) {
     if (strcmp(CONFIG["SHOW_DEBUG"], "ture") == 0) {

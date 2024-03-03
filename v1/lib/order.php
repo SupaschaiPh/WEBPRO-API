@@ -154,6 +154,7 @@ function addOrderBill($table_id, $description, $status, $waiter_id = null, $orde
             NOW(), 
             " . setOrNull($conn, $discount) . ");";
         mysqli_query($conn, $sql);
+        $_SESSION["latest_insert_bill_id"] = $conn->insert_id;
         mysqli_close($conn);
         return true;
     } catch (\Throwable $th) {

@@ -5,7 +5,9 @@ include "../middleware.php";
 
 try {
     //Logic Here
-    echo json_encode($_SESSION["uinfo"]);
+    echo json_encode(
+        $_SESSION
+    );
 
 } catch (Throwable $th) {
     if (strcmp(CONFIG["SHOW_DEBUG"], "true") == 0) {

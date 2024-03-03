@@ -22,3 +22,44 @@ function addRole($roleName, $roleDesc = null)
         return false;
     }
 }
+
+function editRole($roleName, $roleDesc = null, $newRollName = null)
+{
+    include __DIR__ . "/../connect.php";
+    $setsql = "";
+    $setsql = setSQLSet($conn, $setsql, "role", $newRollName);
+    $setsql = setSQLSet($conn, $setsql, "role_desc", $roleDesc);
+    try {
+        $sql = "
+        UPDATE 
+            `user_role`
+        SET
+            " . $setsql . "
+        WHERE
+            `user_role`.role = '" . mysqli_real_escape_string($conn, $roleName) . "'
+        ";
+        mysqli_query($conn, $sql);
+        return checkItEdited($conn);
+    } catch (\Throwable $th) {
+        mysqli_close($conn);
+        return false;
+    }
+}
+
+function removeRole($roleName)
+{
+    include __DIR__ . "/../connect.php";
+    try {
+        $sql = "
+        DELETE FROM 
+            `user_role`
+        WHERE
+            `user_role`.role = '" . mysqli_real_escape_string($conn, $roleName) . "'
+        ";
+        mysqli_query($conn, $sql);
+        return checkItEdited($conn);
+    } catch (\Throwable $th) {
+        mysqli_close($conn);
+        return false;
+    }
+}

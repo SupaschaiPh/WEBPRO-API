@@ -23,7 +23,7 @@ function filterObjToSQL($conn, $filterObjStr)
     $isFirstFilter = true;
     foreach ($filterObjStr as $filter) {
         $filterField = mysqli_real_escape_string($conn, $filter['key']);
-        $filterValue = $filter['filter'];
+        $filterValue = isset($filter['filter']) ? $filter['filter'] :  "";
         $filterType = "";
 
         if (!$isFirstFilter) {
@@ -98,4 +98,13 @@ function setSQLSet($conn,$sqlStr,$key,$val){
         $sqlStr .= "`". mysqli_real_escape_string($conn, $key) ."` = '" . mysqli_real_escape_string($conn, $val) . "'";
     }
     return $sqlStr;
+}
+
+function checkItEdited($conn){
+    if (mysqli_affected_rows($conn) > 0) {
+        mysqli_close($conn);
+        return true;
+    }
+    mysqli_close($conn);
+    return false;
 }
