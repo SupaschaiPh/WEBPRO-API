@@ -150,7 +150,7 @@ function getTableType($limit = null, $offset = 0)
         $sql = "SELECT * FROM table_type;";
     }
     $res = mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
-    $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(table_id) FROM table_info ;"));
+    $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(table_type) FROM table_type ;"));
     $hold["data"] = $res;
     $hold["limit"] = $maximumlimit[0][0];
     mysqli_close($conn);
