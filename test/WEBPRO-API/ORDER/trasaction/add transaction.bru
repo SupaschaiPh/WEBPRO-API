@@ -5,7 +5,15 @@ meta {
 }
 
 post {
-  url: 
-  body: none
+  url: http://localhost:8080/v1/order/transaction/add/
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "order_bill_id":1,
+    "menu_id":1,
+    "count":1
+  }
 }

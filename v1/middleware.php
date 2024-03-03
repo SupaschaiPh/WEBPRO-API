@@ -16,7 +16,9 @@ define(
         "/v1/table/type/",
         "/v1/table/order/",
         "/v1/order/",
-        "/v1/order/status/"
+        "/v1/order/status/",
+        "/v1/order/transaction/"
+
     )
 );
 define(
@@ -40,7 +42,8 @@ define(
         "/v1/table/edit/",
         "/v1/table/type/add/",
         "/v1/order/add/",
-        "/v1/order/status/add/"
+        "/v1/order/status/add/",
+        "/v1/order/transaction/add/"
     )
 );
 

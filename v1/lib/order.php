@@ -1,5 +1,5 @@
 <?php
-include __DIR__ . "/../lib/util.php";
+include_once __DIR__ . "/../lib/util.php";
 
 function getOrder($limit = null, $offset = 0, $filters = null)
 {
@@ -121,13 +121,14 @@ function addOrderStatus($order_status, $description = null)
         return false;
     }
 }
+
 function addOrderBill($table_id, $description, $status, $waiter_id = null, $order_by = null, $price = 0, $discount = 0)
 {
     if (
-        ((is_int($price) || is_float($price))) && 
-        (isset($discount)&&(is_int($discount) || is_float($discount)))
+        (!((is_int($price) || is_float($price)))) &&
+        (isset($discount) && !((is_int($discount) || is_float($discount))))
     ) return false;
-    if(!isset($discount))$discount = 0;
+    if (!isset($discount)) $discount = 0;
     include __DIR__ . "/../connect.php";
     try {
         $sql = "INSERT INTO `order_bill`(
@@ -155,6 +156,79 @@ function addOrderBill($table_id, $description, $status, $waiter_id = null, $orde
             " . setOrNull($conn, $discount) . ");";
         mysqli_query($conn, $sql);
         $_SESSION["latest_insert_bill_id"] = $conn->insert_id;
+        mysqli_close($conn);
+        return true;
+    } catch (\Throwable $th) {
+        mysqli_close($conn);
+        return false;
+    }
+}
+
+function getOrderTransaction($limit = null, $offset = 0, $filters = null)
+{
+    include __DIR__ . "/../connect.php";
+    if ($offset < 0) {
+        $offset = 0;
+    }
+    if ($limit < 0) {
+        $limit = 0;
+    }
+    if ($limit != null) {
+        $sql = 'SELECT
+                *
+            FROM
+                `order_transaction`
+            ' . filterObjToSQL($conn, $filters) . ' 
+            LIMIT ' . intval($limit) . " OFFSET " . intval($offset) . ";";
+    } else {
+        //Code
+        $sql = 'SELECT
+                    *
+                FROM
+                    `order_transaction`
+            ' . filterObjToSQL($conn, $filters) . ';';
+    }
+    $res = mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
+    $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "
+    SELECT 
+    count(order_status) FROM `order_status`
+    " . filterObjToSQL($conn, $filters) . ";"));
+    $hold["data"] = $res;
+    $hold["limit"] = $maximumlimit[0][0];
+    mysqli_close($conn);
+    return $hold;
+}
+
+function addOrederTransaction(
+    $order_bill_id,
+    $menu_id,
+    $count,
+    $menu_price,
+    $response_by = null
+) {
+    if (
+        (!(is_int($menu_price) || is_float($menu_price))) &&
+        (!(is_int($count) || is_float($count)))
+    ) return false;
+    if (!isset($discount)) $discount = 0;
+    include __DIR__ . "/../connect.php";
+    try {
+        $sql = "INSERT INTO `order_transaction`(
+            `id`,
+            `order_bill_id`,
+            `menu_id`,
+            `count`,
+            `menu_price`,
+            `response_by`
+        )
+        VALUES(
+            NULL, 
+            '".mysqli_real_escape_string($conn,$order_bill_id)."', 
+            '".mysqli_real_escape_string($conn,$menu_id)."', 
+            '".mysqli_real_escape_string($conn,$count)."', 
+            '".mysqli_real_escape_string($conn,$menu_price)."', 
+            ".setOrNull($conn,$response_by).")";
+        mysqli_query($conn, $sql);
         mysqli_close($conn);
         return true;
     } catch (\Throwable $th) {

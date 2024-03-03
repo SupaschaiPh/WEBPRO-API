@@ -1,5 +1,6 @@
 <?php
-include __DIR__ . "/../lib/util.php";
+include_once __DIR__ . "/../lib/util.php";
+
 function getTables($limit = null, $offset = 0, $filters = null)
 {
     include __DIR__ . "/../connect.php";

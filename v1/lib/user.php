@@ -1,6 +1,6 @@
 <?php
 
-include __DIR__ . "/../lib/util.php";
+include_once __DIR__ . "/../lib/util.php";
 
 function createUser($email, $password, $name, $lastname, $tel)
 {

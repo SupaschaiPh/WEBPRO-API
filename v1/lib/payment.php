@@ -1,4 +1,5 @@
 <?php
+include_once __DIR__ . "/../lib/util.php";
 
 function getPayments($limit=null,$offset=0){
     include __DIR__."/../connect.php";

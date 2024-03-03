@@ -1,0 +1,23 @@
+meta {
+  name: get
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:8080/v1/order/transaction/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "filters":[
+      {
+        "key":"table_id",
+        "filter":"1",
+        "type":"equal"
+      }
+    ]
+  }
+}
