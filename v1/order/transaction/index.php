@@ -19,7 +19,7 @@ try {
         $filters = json_encode($_GET["filters"], true);
     }
     //Logic here
-    echo json_encode(getOrder($limit,$offset,$filters));
+    echo json_encode(getOrderTransaction($limit,$offset,$filters));
 } catch (Throwable $th) {
     if (strcmp(CONFIG["SHOW_DEBUG"],"true") == 0) {
         echo $th;

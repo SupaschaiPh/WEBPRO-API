@@ -28,13 +28,13 @@ function getOrder($limit = null, $offset = 0, $filters = null)
                 order_bill.discount
             FROM
                 `order_bill`
-            LEFT OUTER JOIN order_transaction ON order_bill.id = order_transaction.id
             LEFT OUTER JOIN employee ON order_bill.waiter_id = employee.id
             LEFT OUTER JOIN USER ON order_bill.order_by = user.id 
             ' . filterObjToSQL($conn, $filters) . ' 
             LIMIT ' . intval($limit) . " OFFSET " . intval($offset) . ";";
     } else {
         //Code
+        //LEFT OUTER JOIN order_transaction ON order_bill.id = order_transaction.id
         $sql = 'SELECT
                 order_bill.id,
                 table_id,
@@ -52,7 +52,6 @@ function getOrder($limit = null, $offset = 0, $filters = null)
                 order_bill.discount
             FROM
                 `order_bill`
-            LEFT OUTER JOIN order_transaction ON order_bill.id = order_transaction.id
             LEFT OUTER JOIN employee ON order_bill.waiter_id = employee.id
             LEFT OUTER JOIN USER ON order_bill.order_by = user.id
             ' . filterObjToSQL($conn, $filters) . ';';
@@ -61,7 +60,7 @@ function getOrder($limit = null, $offset = 0, $filters = null)
     $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "
     SELECT 
     count(order_bill.id) FROM order_bill 
-    LEFT OUTER JOIN order_transaction ON order_bill.id = order_transaction.id
+    
     LEFT OUTER JOIN employee ON order_bill.waiter_id = employee.id
     LEFT OUTER JOIN USER ON order_bill.order_by = user.id 
     " . filterObjToSQL($conn, $filters) . ";"));
@@ -175,23 +174,31 @@ function getOrderTransaction($limit = null, $offset = 0, $filters = null)
     }
     if ($limit != null) {
         $sql = 'SELECT
-                *
+                 *,
+                order_transaction.id as "id"
             FROM
                 `order_transaction`
+            JOIN `order_bill` ON order_bill.id = order_transaction.order_bill_id
+            JOIN `menu` USING (menu_id)
             ' . filterObjToSQL($conn, $filters) . ' 
             LIMIT ' . intval($limit) . " OFFSET " . intval($offset) . ";";
     } else {
         //Code
         $sql = 'SELECT
-                    *
+                *,
+                order_transaction.id as "id"       
                 FROM
                     `order_transaction`
+                JOIN `order_bill` ON order_bill.id = order_transaction.order_bill_id
+                JOIN `menu` USING (menu_id) 
             ' . filterObjToSQL($conn, $filters) . ';';
     }
     $res = mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
     $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "
     SELECT 
-    count(order_status) FROM `order_status`
+    count(order_transaction.id) FROM `order_transaction`
+    JOIN `order_bill` ON order_bill.id = order_transaction.order_bill_id
+    JOIN `menu` USING (menu_id) 
     " . filterObjToSQL($conn, $filters) . ";"));
     $hold["data"] = $res;
     $hold["limit"] = $maximumlimit[0][0];
