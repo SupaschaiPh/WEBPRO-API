@@ -271,3 +271,36 @@ function editTableStatus($table_status, $table_status_desc , $new_table_status, 
         return false;
     }
 }
+
+
+function orderTable($table_id,$note,$receive_id) {
+    include __DIR__ . "/../connect.php";
+    try {
+        $sql = "INSERT INTO `table_order`(
+            `id`,
+            `table_id`,
+            `note`,
+            `receive_id`,
+            `timestamp`,
+            `start_date`,
+            `end_date`,
+            `order_status`
+        )
+        VALUES(
+            NULL,
+            '".mysqli_real_escape_string($conn,$table_id)."',
+            '".mysqli_real_escape_string($conn,$note)."',
+            '".mysqli_real_escape_string($conn,$receive_id)."',
+            NOW(), 
+            ".getSQLdatetimeFormat().", 
+            NULL,
+            NULL)";
+       mysqli_query($conn, $sql);
+        mysqli_close($conn);
+        return true;
+    } catch (\Throwable $th) {
+        mysqli_close($conn);
+        echo $th;
+        return false;
+    }
+}

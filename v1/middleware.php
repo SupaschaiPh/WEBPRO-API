@@ -31,6 +31,7 @@ define(
         "/v1/menu/add/",
         "/v1/menu/type/add/",
         "/v1/table/add/",
+        "/v1/table/order/add/",
         "/v1/table/type/add/",
         "/v1/table/status/add/",
         "/v1/order/add/",
@@ -67,7 +68,8 @@ define(
     "AUTH_ROUTE",
     array(
         "/v1/session/",
-        "/v1/logout/"
+        "/v1/logout/",
+        "/v1/table/order/add/",
     )
 );
 
