@@ -12,19 +12,19 @@ function getTables($limit = null, $offset = 0, $filters = null)
     }
 
     if ($limit != null) {
-        $sql = "SELECT * FROM table_info LEFT OUTER JOIN table_order USING (table_id) LEFT OUTER JOIN user ON table_order.receive_id=user.id ". filterObjToSQL($conn, $filters) . " LIMIT " . intval($limit) . " OFFSET " . intval($offset) . ";";
+        $sql = "SELECT * FROM table_info LEFT OUTER JOIN table_order USING (table_id) LEFT OUTER JOIN user ON table_order.receive_id=user.id " . filterObjToSQL($conn, $filters) . " LIMIT " . intval($limit) . " OFFSET " . intval($offset) . ";";
     } else {
-        $sql = "SELECT * FROM table_info LEFT OUTER JOIN table_order USING (table_id) LEFT OUTER JOIN user ON table_order.receive_id=user.id ". filterObjToSQL($conn, $filters) . ";";
+        $sql = "SELECT * FROM table_info LEFT OUTER JOIN table_order USING (table_id) LEFT OUTER JOIN user ON table_order.receive_id=user.id " . filterObjToSQL($conn, $filters) . ";";
     }
     $res = mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
-    $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(table_id) FROM table_info  LEFT OUTER JOIN table_order USING (table_id) ". filterObjToSQL($conn, $filters) . " ;"));
+    $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(table_id) FROM table_info  LEFT OUTER JOIN table_order USING (table_id) " . filterObjToSQL($conn, $filters) . " ;"));
     $hold["data"] = $res;
     $hold["limit"] = $maximumlimit[0][0];
     mysqli_close($conn);
     return $hold;
 }
 
-function getTableInfo($limit = null, $offset = 0,$filters = null)
+function getTableInfo($limit = null, $offset = 0, $filters = null)
 {
     include __DIR__ . "/../connect.php";
     if ($offset < 0) {
@@ -35,19 +35,19 @@ function getTableInfo($limit = null, $offset = 0,$filters = null)
     }
 
     if ($limit != null) {
-        $sql = "SELECT * FROM table_info ". filterObjToSQL($conn, $filters) . " LIMIT " . intval($limit) . " OFFSET " . intval($offset) . ";";
+        $sql = "SELECT * FROM table_info " . filterObjToSQL($conn, $filters) . " LIMIT " . intval($limit) . " OFFSET " . intval($offset) . ";";
     } else {
-        $sql = "SELECT * FROM table_info ". filterObjToSQL($conn, $filters) . " ;";
+        $sql = "SELECT * FROM table_info " . filterObjToSQL($conn, $filters) . " ;";
     }
     $res = mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
-    $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(table_id) FROM table_info ". filterObjToSQL($conn, $filters) . " ;"));
+    $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(table_id) FROM table_info " . filterObjToSQL($conn, $filters) . " ;"));
     $hold["data"] = $res;
     $hold["limit"] = $maximumlimit[0][0];
     mysqli_close($conn);
     return $hold;
 }
 
-function getTableStatus($limit = null, $offset = 0,$filters = null)
+function getTableStatus($limit = null, $offset = 0, $filters = null)
 {
     include __DIR__ . "/../connect.php";
     if ($offset < 0) {
@@ -58,19 +58,19 @@ function getTableStatus($limit = null, $offset = 0,$filters = null)
     }
 
     if ($limit != null) {
-        $sql = "SELECT * FROM table_status ". filterObjToSQL($conn, $filters) . " LIMIT " . intval($limit) . " OFFSET " . intval($offset) . ";";
+        $sql = "SELECT * FROM table_status " . filterObjToSQL($conn, $filters) . " LIMIT " . intval($limit) . " OFFSET " . intval($offset) . ";";
     } else {
-        $sql = "SELECT * FROM table_status ". filterObjToSQL($conn, $filters) . " ;";
+        $sql = "SELECT * FROM table_status " . filterObjToSQL($conn, $filters) . " ;";
     }
     $res = mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
-    $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(table_status) FROM table_status ". filterObjToSQL($conn, $filters) . " ;"));
+    $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(table_status) FROM table_status " . filterObjToSQL($conn, $filters) . " ;"));
     $hold["data"] = $res;
     $hold["limit"] = $maximumlimit[0][0];
     mysqli_close($conn);
     return $hold;
 }
 
-function getTableOrder($limit = null, $offset = 0,$filters = null)
+function getTableOrder($limit = null, $offset = 0, $filters = null)
 {
     include __DIR__ . "/../connect.php";
     if ($offset < 0) {
@@ -81,12 +81,12 @@ function getTableOrder($limit = null, $offset = 0,$filters = null)
     }
 
     if ($limit != null) {
-        $sql = "SELECT * FROM table_order ". filterObjToSQL($conn, $filters) . " LIMIT " . intval($limit) . " OFFSET " . intval($offset) . ";";
+        $sql = "SELECT * FROM table_order " . filterObjToSQL($conn, $filters) . " LIMIT " . intval($limit) . " OFFSET " . intval($offset) . ";";
     } else {
-        $sql = "SELECT * FROM table_order ". filterObjToSQL($conn, $filters) . " ;";
+        $sql = "SELECT * FROM table_order " . filterObjToSQL($conn, $filters) . " ;";
     }
     $res = mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
-    $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(table_order.id) FROM table_order ". filterObjToSQL($conn, $filters) . " ;"));
+    $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(table_order.id) FROM table_order " . filterObjToSQL($conn, $filters) . " ;"));
     $hold["data"] = $res;
     $hold["limit"] = $maximumlimit[0][0];
     mysqli_close($conn);
@@ -94,7 +94,7 @@ function getTableOrder($limit = null, $offset = 0,$filters = null)
 }
 
 
-function addTable($table_type,$position_x = null,$position_y = null,$priority = null,$table_status=null)
+function addTable($table_type, $position_x = null, $position_y = null, $priority = null, $table_status = null)
 {
     include __DIR__ . "/../connect.php";
     try {
@@ -110,10 +110,10 @@ function addTable($table_type,$position_x = null,$position_y = null,$priority = 
         VALUES(
             NULL,
             '" . mysqli_real_escape_string($conn, $table_type) . "',
-            ".setOrNull($conn,$position_x).",
-            ".setOrNull($conn,$position_y).",
-            ".setOrNull($conn,$priority).",
-            ".setOrNull($conn,$table_status)."
+            " . setOrNull($conn, $position_x) . ",
+            " . setOrNull($conn, $position_y) . ",
+            " . setOrNull($conn, $priority) . ",
+            " . setOrNull($conn, $table_status) . "
         )
         ";
         mysqli_query($conn, $sql);
@@ -125,13 +125,13 @@ function addTable($table_type,$position_x = null,$position_y = null,$priority = 
     }
 }
 
-function editTableInfo($table_id,$table_type,$position_x = null,$position_y = null,$priority = null,$table_status=null)
+function editTableInfo($table_id, $table_type, $position_x = null, $position_y = null, $priority = null, $table_status = null)
 {
-    if(
-        (!(isset($position_x) && is_int($position_x)))&&
-        (!(isset($position_y) && is_int($position_y)))&&
+    if (
+        (!(isset($position_x) && is_int($position_x))) &&
+        (!(isset($position_y) && is_int($position_y))) &&
         (!(isset($priority) && is_int($priority)))
-        )return false;
+    ) return false;
     include __DIR__ . "/../connect.php";
     $setsql = "";
     $setsql = setSQLSet($conn, $setsql, "table_type", $table_type);
@@ -144,9 +144,9 @@ function editTableInfo($table_id,$table_type,$position_x = null,$position_y = nu
         UPDATE 
             `table_info`
         SET
-            ".$setsql."
+            " . $setsql . "
         WHERE
-            `table_info`.table_id = ".mysqli_real_escape_string($conn,$table_id)."
+            `table_info`.table_id = " . mysqli_real_escape_string($conn, $table_id) . "
         ";
         mysqli_query($conn, $sql);
         mysqli_close($conn);
@@ -197,6 +197,56 @@ function addTableType($table_type, $no_can_receive, $time_limit)
         mysqli_query($conn, $sql);
         mysqli_close($conn);
         return true;
+    } catch (\Throwable $th) {
+        mysqli_close($conn);
+        return false;
+    }
+}
+
+
+function addTableStatus($table_status, $table_status_desc, $active = 1)
+{
+    include __DIR__ . "/../connect.php";
+    if (!(is_int($active) && ($active == 1 || $active == 0))) {
+        $active = 1;
+    }
+    try {
+        $sql = "INSERT INTO `table_status`(
+            `table_status`,
+            `table_status_desc`,
+            `active`
+        )
+        VALUES('" . mysqli_real_escape_string($conn, $table_status) . "', " . setOrNull($conn, $table_status_desc) . ", '" . mysqli_real_escape_string($conn, $active) . "')";
+        mysqli_query($conn, $sql);
+        mysqli_close($conn);
+        return true;
+    } catch (\Throwable $th) {
+        mysqli_close($conn);
+        return false;
+    }
+}
+function editTableStatus($table_status, $table_status_desc , $new_table_status, $active = 1)
+{
+    if (!(is_int($active) && ($active == 1 || $active == 0))) {
+        $active = 1;
+    }
+    include __DIR__ . "/../connect.php";
+    $setsql = "";
+    $setsql = setSQLSet($conn, $setsql, "table_status", $new_table_status);
+    $setsql = setSQLSet($conn, $setsql, "table_status_desc", $table_status_desc);
+    $setsql = setSQLSet($conn, $setsql, "active", $active);
+    try {
+        $sql = "
+        UPDATE 
+            `table_status`
+        SET
+            " . $setsql . "
+        WHERE
+            `table_status`.table_status = '" . mysqli_real_escape_string($conn, $table_status) . "';
+        ";
+        mysqli_query($conn, $sql);
+        return checkItEdited($conn);
+
     } catch (\Throwable $th) {
         mysqli_close($conn);
         return false;
