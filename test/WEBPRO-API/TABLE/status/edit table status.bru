@@ -5,7 +5,14 @@ meta {
 }
 
 put {
-  url: 
-  body: none
+  url: http://localhost:8080/v1/table/status/edit/
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "table_status":"test",
+    "table_status_desc":"สำหรับการทดสอบระบบ"
+  }
 }
