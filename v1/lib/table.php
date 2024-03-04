@@ -12,9 +12,9 @@ function getTables($limit = null, $offset = 0, $filters = null)
     }
 
     if ($limit != null) {
-        $sql = "SELECT * FROM table_info LEFT OUTER JOIN table_order USING (table_id) LEFT OUTER JOIN user ON table_order.receive_id=user.id " . filterObjToSQL($conn, $filters) . " LIMIT " . intval($limit) . " OFFSET " . intval($offset) . ";";
+        $sql = "SELECT *,table_info.active as 'table_acitve' FROM table_info LEFT OUTER JOIN table_order USING (table_id) LEFT OUTER JOIN user ON table_order.receive_id=user.id " . filterObjToSQL($conn, $filters) . " LIMIT " . intval($limit) . " OFFSET " . intval($offset) . ";";
     } else {
-        $sql = "SELECT * FROM table_info LEFT OUTER JOIN table_order USING (table_id) LEFT OUTER JOIN user ON table_order.receive_id=user.id " . filterObjToSQL($conn, $filters) . ";";
+        $sql = "SELECT *,table_info.active as 'table_acitve' FROM table_info LEFT OUTER JOIN table_order USING (table_id) LEFT OUTER JOIN user ON table_order.receive_id=user.id " . filterObjToSQL($conn, $filters) . ";";
     }
     $res = mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
     $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(table_id) FROM table_info  LEFT OUTER JOIN table_order USING (table_id) " . filterObjToSQL($conn, $filters) . " ;"));
@@ -94,8 +94,11 @@ function getTableOrder($limit = null, $offset = 0, $filters = null)
 }
 
 
-function addTable($table_type, $position_x = null, $position_y = null, $priority = null, $table_status = null)
+function addTable($table_type, $position_x = null, $position_y = null, $priority = null, $table_status = null,$active=1)
 {
+    if(isset($active) && !($active==0 || $active==1)){
+        $active==1;
+    }
     include __DIR__ . "/../connect.php";
     try {
         $sql = "
@@ -105,7 +108,8 @@ function addTable($table_type, $position_x = null, $position_y = null, $priority
             `position_x`,
             `position_y`,
             `priority`,
-            `table_status`
+            `table_status`,
+            `active`
         )
         VALUES(
             NULL,
@@ -114,6 +118,7 @@ function addTable($table_type, $position_x = null, $position_y = null, $priority
             " . setOrNull($conn, $position_y) . ",
             " . setOrNull($conn, $priority) . ",
             " . setOrNull($conn, $table_status) . "
+            " . $active . "
         )
         ";
         mysqli_query($conn, $sql);
