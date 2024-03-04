@@ -130,13 +130,25 @@ function addTable($table_type, $position_x = null, $position_y = null, $priority
     }
 }
 
-function editTableInfo($table_id, $table_type, $position_x = null, $position_y = null, $priority = null, $table_status = null)
+function editTableInfo($table_id, $table_type, $position_x = null, $position_y = null, $priority = null, $table_status = null,$active=1)
 {
     if (
-        (!(isset($position_x) && is_int($position_x))) &&
-        (!(isset($position_y) && is_int($position_y))) &&
-        (!(isset($priority) && is_int($priority)))
-    ) return false;
+        (
+            !($position_x==null && $position_y==null && $priority==null)
+        )
+        &&
+        (
+        (!($position_x!=null && is_int($position_x))) &&
+        (!($position_y!=null && is_int($position_y))) &&
+        (!($priority!=null && is_int($priority)))
+        )
+    
+    ) {
+        return false;
+    }
+    if(isset($active) && !($active==0 || $active==1)){
+        $active=1;
+    }
     include __DIR__ . "/../connect.php";
     $setsql = "";
     $setsql = setSQLSet($conn, $setsql, "table_type", $table_type);
@@ -144,6 +156,7 @@ function editTableInfo($table_id, $table_type, $position_x = null, $position_y =
     $setsql = setSQLSet($conn, $setsql, "position_y", $position_y);
     $setsql = setSQLSet($conn, $setsql, "priority", $priority);
     $setsql = setSQLSet($conn, $setsql, "table_status", $table_status);
+    $setsql = setSQLSet($conn, $setsql, "active", $active);
     try {
         $sql = "
         UPDATE 
@@ -159,6 +172,7 @@ function editTableInfo($table_id, $table_type, $position_x = null, $position_y =
     } catch (\Throwable $th) {
         mysqli_close($conn);
         return false;
+        echo $th;
     }
 }
 

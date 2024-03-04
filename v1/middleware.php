@@ -58,6 +58,7 @@ define(
         "/v1/role/remove/",
         "/v1/menu/remove/",
         "/v1/menu/type/remove/",
+        "/v1/table/remove/",
         "/v1/table/status/remove/",
     )
 );
