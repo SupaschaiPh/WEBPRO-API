@@ -49,3 +49,7 @@ function getPayments($limit=null,$offset=0, $filters = null){
     mysqli_close($conn);
     return $hold;
 }
+
+function pay(){
+    $_SESSION["in_progress"] = false;
+}

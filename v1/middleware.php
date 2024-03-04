@@ -65,7 +65,8 @@ define(
 define(
     "AUTH_ROUTE",
     array(
-        "/v1/session/"
+        "/v1/session/",
+        "/v1/logout/"
     )
 );
 
