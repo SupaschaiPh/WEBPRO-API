@@ -1,0 +1,17 @@
+meta {
+  name: hard remove
+  type: http
+  seq: 3
+}
+
+delete {
+  url: http://localhost:8080/v1/table/order/remove/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id":3
+  }
+}

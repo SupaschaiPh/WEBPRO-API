@@ -6,6 +6,10 @@ include "../../lib/order.php";
 try {
     checkRequirekeyQuery($_POST, array("table_id", "status"));
     $_POST = bodyCanNull($_POST, array("waiter_id", "order_by", "description", "price", "discount"));
+    $order_by = $_POST["order_by"];
+    if ($_POST["order_by"]==null && isset($_SESSION["uinfo"]) && isset($_SESSION["uinfo"]["id"])) {
+        $order_by = $_SESSION["uinfo"]["id"];
+    }
     if (addOrderBill($_POST["table_id"], $_POST["description"], $_POST["status"], $_POST["waiter_id"], $_POST["order_by"], $_POST["price"], $_POST["discount"])) {
         echo json_encode(
             array(

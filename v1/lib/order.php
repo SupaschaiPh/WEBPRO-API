@@ -164,6 +164,40 @@ function addOrderBill($table_id, $description, $status, $waiter_id = null, $orde
     }
 }
 
+function editOrderBill($id,$table_id = null, $description = null, $status = null, $waiter_id = null, $order_by = null, $price = null, $discount = null)
+{
+    if (
+        (!((is_int($price) || is_float($price)))) &&
+        (isset($discount) && !((is_int($discount) || is_float($discount))))
+    ) return false;
+    include __DIR__ . "/../connect.php";
+    $setsql = "";
+    $setsql = setSQLSet($conn, $setsql, "table_id", $table_id);
+    $setsql = setSQLSet($conn, $setsql, "description", $description);
+    $setsql = setSQLSet($conn, $setsql, "status", $status);
+    $setsql = setSQLSet($conn, $setsql, "waiter_id", $waiter_id);
+    $setsql = setSQLSet($conn, $setsql, "order_by", $order_by);
+    $setsql = setSQLSet($conn, $setsql, "price", $price);
+    $setsql = setSQLSet($conn, $setsql, "discount", $discount);
+    
+    try {
+        $sql = "UPDATE
+                    `order_bill`
+                SET
+                    ".$setsql."
+                WHERE
+                    `order_bill`.`id` = ".$id;
+        mysqli_query($conn, $sql);
+        //$_SESSION["latest_insert_bill_id"] = $conn->insert_id;
+       // $_SESSION["in_progress"] = true;
+        return checkItEdited($conn);
+    } catch (\Throwable $th) {
+        mysqli_close($conn);
+        return false;
+    }
+}
+
+
 function getOrderTransaction($limit = null, $offset = 0, $filters = null)
 {
     include __DIR__ . "/../connect.php";
@@ -231,11 +265,11 @@ function addOrederTransaction(
         )
         VALUES(
             NULL, 
-            '".mysqli_real_escape_string($conn,$order_bill_id)."', 
-            '".mysqli_real_escape_string($conn,$menu_id)."', 
-            '".mysqli_real_escape_string($conn,$count)."', 
-            '".mysqli_real_escape_string($conn,$menu_price)."', 
-            ".setOrNull($conn,$response_by).")";
+            '" . mysqli_real_escape_string($conn, $order_bill_id) . "', 
+            '" . mysqli_real_escape_string($conn, $menu_id) . "', 
+            '" . mysqli_real_escape_string($conn, $count) . "', 
+            '" . mysqli_real_escape_string($conn, $menu_price) . "', 
+            " . setOrNull($conn, $response_by) . ")";
         mysqli_query($conn, $sql);
         mysqli_close($conn);
         return true;

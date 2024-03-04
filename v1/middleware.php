@@ -50,6 +50,8 @@ define(
         "/v1/menu/type/edit/",
         "/v1/table/edit/",
         "/v1/table/status/edit/",
+        "/v1/table/type/edit/",
+        "/v1/order/edit/"
     )
 );
 
@@ -61,6 +63,7 @@ define(
         "/v1/menu/type/remove/",
         "/v1/table/remove/",
         "/v1/table/status/remove/",
+        "/v1/table/type/remove/",
         "/v1/table/order/remove/",
 
     )
@@ -72,6 +75,7 @@ define(
         "/v1/session/",
         "/v1/logout/",
         "/v1/table/order/add/",
+        "/v1/order/edit/"
     )
 );
 
