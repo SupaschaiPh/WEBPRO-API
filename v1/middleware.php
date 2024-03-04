@@ -61,6 +61,8 @@ define(
         "/v1/menu/type/remove/",
         "/v1/table/remove/",
         "/v1/table/status/remove/",
+        "/v1/table/order/remove/",
+
     )
 );
 

@@ -300,7 +300,17 @@ function orderTable($table_id,$note,$receive_id) {
         return true;
     } catch (\Throwable $th) {
         mysqli_close($conn);
-        echo $th;
+        return false;
+    }
+}
+function removeOrderTable($id) {
+    include __DIR__ . "/../connect.php";
+    try {
+        $sql = "DELETE FROM table_order WHERE `table_order`.`id` = '".mysqli_real_escape_string($conn,$id)."' ;";
+        mysqli_query($conn, $sql);
+        return checkItEdited($conn);
+    } catch (\Throwable $th) {
+        mysqli_close($conn);
         return false;
     }
 }

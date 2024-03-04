@@ -6,6 +6,12 @@ meta {
 
 delete {
   url: http://localhost:8080/v1/table/remove/
-  body: none
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "table_id":1
+  }
 }
