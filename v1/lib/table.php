@@ -273,7 +273,7 @@ function editTableStatus($table_status, $table_status_desc , $new_table_status, 
 }
 
 
-function orderTable($table_id,$note,$receive_id) {
+function orderTable($table_id,$note,$receive_id,$start_date=null,$end_date=null,$order_status=null) {
     include __DIR__ . "/../connect.php";
     try {
         $sql = "INSERT INTO `table_order`(
@@ -292,10 +292,10 @@ function orderTable($table_id,$note,$receive_id) {
             '".mysqli_real_escape_string($conn,$note)."',
             '".mysqli_real_escape_string($conn,$receive_id)."',
             NOW(), 
-            ".getSQLdatetimeFormat().", 
-            NULL,
-            NULL)";
-       mysqli_query($conn, $sql);
+            '".mysqli_real_escape_string($conn,$start_date)."', 
+            ".setOrNull($conn,$end_date).", 
+            ".setOrNull($conn,$order_status).")";
+        mysqli_query($conn, $sql);
         mysqli_close($conn);
         return true;
     } catch (\Throwable $th) {
