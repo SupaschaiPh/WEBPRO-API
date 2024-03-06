@@ -1,17 +1,21 @@
 <?php
 include_once __DIR__ . "/../lib/util.php";
 
-function regisEmployee($id, $name, $lastname, $address, $duty)
+function regisEmployee($id, $name, $lastname, $address, $duty,$salary  = null,$profile_url = null)
 {
+    if($salary!=null &&  (is_int($salary) || is_float($salary)))return false;
+
     include __DIR__ . "/../connect.php";
     try {
         $sql = "INSERT INTO `employee`(
             `id`,
-            `name`,
-            `lastname`,
+            `e_name`,
+            `e_lastname`,
             `duty`,
             `address`,
-            `start_date`
+            `start_date`,
+            `salary`,
+            `profile_url`
         )
         VALUES(
             '" . mysqli_real_escape_string($conn, $id) . "',
@@ -19,7 +23,9 @@ function regisEmployee($id, $name, $lastname, $address, $duty)
             " . setOrNull($conn, $lastname) . ",
             " . setOrNull($conn, $duty) . ",
             " . setOrNull($conn, $address) . ",
-            " . getSQLdatetimeFormat() . "
+            " . getSQLdatetimeFormat() . ",
+            " . setOrNull($conn, $salary) . ",
+            " . setOrNull($conn, $profile_url) . "
         )";
         mysqli_query($conn, $sql);
         mysqli_close($conn);
@@ -30,26 +36,28 @@ function regisEmployee($id, $name, $lastname, $address, $duty)
     }
 }
 
-function editEmployee($id, $name, $lastname, $address, $duty,$salary,$start_date,$profile_url)
+function editEmployee($id, $e_name, $e_lastname, $address, $duty,$salary,$start_date,$end_date,$profile_url)
 {
-    if(!(isset($salary)&&(is_int($salary) || is_float($salary))))return false;
+    if($salary!=null &&  (is_int($salary) || is_float($salary)))return false;
     include __DIR__ . "/../connect.php";
+    $setsql = "";
+    $setsql = setSQLSet($conn, $setsql, "e_name", $e_name);
+    $setsql = setSQLSet($conn, $setsql, "e_lastname", $e_lastname);
+    $setsql = setSQLSet($conn, $setsql, "duty", $duty);
+    $setsql = setSQLSet($conn, $setsql, "address", $address);
+    $setsql = setSQLSet($conn, $setsql, "salary", $salary);
+    $setsql = setSQLSet($conn, $setsql, "start_date", $start_date);
+    $setsql = setSQLSet($conn, $setsql, "end_date", $end_date);
+    $setsql = setSQLSet($conn, $setsql, "profile_url", $profile_url);
     try {
         $sql = "UPDATE
                     `employee`
                 SET
-                    `e_name` = '".setOrNull($conn,$name)."',
-                    `e_lastname` = '".setOrNull($conn,$lastname)."',
-                    `duty` = '".setOrNull($conn,$duty)."',
-                    `address` = '".setOrNull($conn,$address)."',
-                    `salary` = '".setOrNull($conn,$salary)."',
-                    `start_date` = '".setOrNull($conn,$start_date)."',
-                    `profile_url` = '".setOrNull($conn,$profile_url)."'
+                    ".$setsql."
                 WHERE
                     `employee`.`id` = '".$id."'";
         mysqli_query($conn, $sql);
-        mysqli_close($conn);
-        return true;
+        return checkItEdited($conn);
     } catch (\Throwable $th) {
         mysqli_close($conn);
         return false;

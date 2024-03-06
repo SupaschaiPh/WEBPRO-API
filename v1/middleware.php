@@ -58,7 +58,9 @@ define(
 define(
     "DELETE_ALLOW",
     array(
+        "/v1/user/remove/",
         "/v1/role/remove/",
+        "/v1/employee/remove/",
         "/v1/menu/remove/",
         "/v1/menu/type/remove/",
         "/v1/table/remove/",
