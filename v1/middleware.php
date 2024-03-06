@@ -51,7 +51,8 @@ define(
         "/v1/table/edit/",
         "/v1/table/status/edit/",
         "/v1/table/type/edit/",
-        "/v1/order/edit/"
+        "/v1/order/edit/",
+        "/v1/order/status/edit/"
     )
 );
 
@@ -67,7 +68,7 @@ define(
         "/v1/table/status/remove/",
         "/v1/table/type/remove/",
         "/v1/table/order/remove/",
-
+        "/v1/order/status/remove/"
     )
 );
 

@@ -164,7 +164,7 @@ function addOrderBill($table_id, $description, $status, $waiter_id = null, $orde
     }
 }
 
-function editOrderBill($id,$table_id = null, $description = null, $status = null, $waiter_id = null, $order_by = null, $price = null, $discount = null)
+function editOrderBill($id, $table_id = null, $description = null, $status = null, $waiter_id = null, $order_by = null, $price = null, $discount = null)
 {
     if (
         (!((is_int($price) || is_float($price)))) &&
@@ -179,17 +179,17 @@ function editOrderBill($id,$table_id = null, $description = null, $status = null
     $setsql = setSQLSet($conn, $setsql, "order_by", $order_by);
     $setsql = setSQLSet($conn, $setsql, "price", $price);
     $setsql = setSQLSet($conn, $setsql, "discount", $discount);
-    
+
     try {
         $sql = "UPDATE
                     `order_bill`
                 SET
-                    ".$setsql."
+                    " . $setsql . "
                 WHERE
-                    `order_bill`.`id` = ".$id;
+                    `order_bill`.`id` = " . $id;
         mysqli_query($conn, $sql);
         //$_SESSION["latest_insert_bill_id"] = $conn->insert_id;
-       // $_SESSION["in_progress"] = true;
+        // $_SESSION["in_progress"] = true;
         return checkItEdited($conn);
     } catch (\Throwable $th) {
         mysqli_close($conn);
@@ -280,3 +280,29 @@ function addOrederTransaction(
 }
 
 
+
+
+function editOrderStatus($order_status, $description, $new_order_status, $active = null)
+{
+    if ($active!=null && !($active == 0 || $active == 1)) return false;
+    include __DIR__ . "/../connect.php";
+    $setsql = "";
+    $setsql = setSQLSet($conn, $setsql, "description", $description);
+    $setsql = setSQLSet($conn, $setsql, "order_status", $new_order_status);
+    $setsql = setSQLSet($conn, $setsql, "active", $active);
+
+    try {
+        $sql = "UPDATE
+                    `order_status`
+                SET
+                    " . $setsql . "
+                WHERE
+                `order_status`.order_status = '" . mysqli_real_escape_string($conn, $order_status) . "';";
+        mysqli_query($conn, $sql);
+        return checkItEdited($conn);
+    } catch (\Throwable $th) {
+        mysqli_close($conn);
+        echo $th;
+        return false;
+    }
+}

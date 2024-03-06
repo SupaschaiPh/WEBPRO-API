@@ -4,8 +4,8 @@ include "../../../generalFn.php";
 include "../../../middleware.php";
 include "../../../lib/order.php";
 try {
-    checkRequirekeyQuery($_POST,array("status", "desc"));
-    if(addOrderStatus($_POST["status"],$_POST["desc"])){
+    checkRequirekeyQuery($_POST,array("order_status", "description"));
+    if(addOrderStatus($_POST["order_status"],$_POST["description"])){
         echo json_encode(
             array(
                 "status" => "success"
