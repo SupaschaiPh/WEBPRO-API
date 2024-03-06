@@ -1,0 +1,18 @@
+meta {
+  name: add menu type
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/v1/menu/type/add/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "menu_type":"fish",
+    "desc":"ปลา"
+  }
+}

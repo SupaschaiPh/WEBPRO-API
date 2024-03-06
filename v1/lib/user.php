@@ -15,13 +15,13 @@ function createUser($email, $password, $name, $lastname, $tel)
     $sql = "
 INSERT INTO `user` (`id`, `email`, `password`, `role`, `name`, `lastname`, `tel`, `active`) 
 VALUES (
-    uuid(), 
+    '".genUniqueKey()."', 
     '" . mysqli_real_escape_string($conn, $email) . "',    
      " . (isset($password) ? ("'" . mysqli_real_escape_string($conn, $password) . "'") : "NULL") . ",
     'customer',
     '" . mysqli_real_escape_string($conn, $name) . "', 
     '" . mysqli_real_escape_string($conn, $lastname) . "',
-    " . (isset($tel) ? ("'" . mysqli_real_escape_string($conn, $tel) . "'") : "NULL") . ",
+    " . setOrNull($conn,$tel) . ",
     '1');
 ";
     mysqli_query($conn, $sql);

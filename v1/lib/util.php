@@ -108,3 +108,8 @@ function checkItEdited($conn){
     mysqli_close($conn);
     return false;
 }
+
+
+function genUniqueKey() {
+    return  date("Y-m-d-H-i-s-ms-").uniqid();
+}

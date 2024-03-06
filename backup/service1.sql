@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Mar 04, 2024 at 09:52 AM
+-- Generation Time: Mar 04, 2024 at 01:47 PM
 -- Server version: 11.2.2-MariaDB-1:11.2.2+maria~ubu2204
 -- PHP Version: 8.2.15
 
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `employee` (
-  `id` uuid NOT NULL,
+  `id` varchar(100) NOT NULL,
   `e_name` varchar(100) DEFAULT NULL,
   `e_lastname` varchar(100) DEFAULT NULL,
   `duty` varchar(50) DEFAULT NULL,
@@ -102,11 +102,11 @@ INSERT INTO `menu_type` (`menu_type`, `description`, `active`) VALUES
 
 CREATE TABLE `order_bill` (
   `id` int(11) NOT NULL,
-  `table_id` varchar(50) NOT NULL,
+  `table_id` int(11) NOT NULL,
   `description` text DEFAULT NULL,
   `status` varchar(50) NOT NULL,
-  `waiter_id` uuid DEFAULT NULL,
-  `order_by` uuid DEFAULT NULL,
+  `waiter_id` varchar(100) DEFAULT NULL,
+  `order_by` varchar(100) DEFAULT NULL,
   `price` float DEFAULT NULL,
   `date` datetime NOT NULL,
   `time_stamp` timestamp NOT NULL,
@@ -118,9 +118,9 @@ CREATE TABLE `order_bill` (
 --
 
 INSERT INTO `order_bill` (`id`, `table_id`, `description`, `status`, `waiter_id`, `order_by`, `price`, `date`, `time_stamp`, `discount`) VALUES
-(1, '1', NULL, 'in progress', NULL, NULL, NULL, '2024-03-03 03:38:41', '2024-03-03 03:38:41', 0),
-(2, '1', NULL, 'in progress', NULL, NULL, NULL, '2024-03-03 09:45:01', '2024-03-03 09:45:01', 0),
-(3, '1', NULL, 'in progress', NULL, NULL, NULL, '2024-03-03 09:45:55', '2024-03-03 09:45:55', 0);
+(1, 1, NULL, 'in progress', NULL, NULL, NULL, '2024-03-03 03:38:41', '2024-03-03 03:38:41', 0),
+(2, 1, NULL, 'in progress', NULL, NULL, NULL, '2024-03-03 09:45:01', '2024-03-03 09:45:01', 0),
+(3, 1, 'ไม่เอาเนื้อเลย', 'in progress', NULL, '181ab56c-d1a3-11ee-9e18-0242ac120002', NULL, '2024-03-03 09:45:55', '2024-03-03 09:45:55', 10);
 
 -- --------------------------------------------------------
 
@@ -139,6 +139,7 @@ CREATE TABLE `order_status` (
 --
 
 INSERT INTO `order_status` (`order_status`, `description`, `active`) VALUES
+('cancel', 'บิลถูกยกเลิก', 1),
 ('in progress', 'อยู่ระหว่างการสั่ง', 1),
 ('paid', 'จ่ายเงินแล้ว', 1);
 
@@ -154,7 +155,7 @@ CREATE TABLE `order_transaction` (
   `menu_id` int(11) NOT NULL,
   `count` int(11) NOT NULL,
   `menu_price` float NOT NULL,
-  `response_by` uuid DEFAULT NULL
+  `response_by` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -177,7 +178,7 @@ CREATE TABLE `payment` (
   `id` int(11) NOT NULL,
   `bill_id` int(11) NOT NULL,
   `evidence` text NOT NULL,
-  `paid_to` uuid NOT NULL,
+  `paid_to` varchar(100) NOT NULL,
   `paid_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -190,7 +191,7 @@ CREATE TABLE `payment` (
 CREATE TABLE `review_answer` (
   `id` int(11) NOT NULL,
   `review_id` int(11) NOT NULL,
-  `review_by` uuid NOT NULL,
+  `review_by` varchar(100) NOT NULL,
   `order_id` int(11) NOT NULL,
   `answer` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`answer`)),
   `submit_date` datetime NOT NULL,
@@ -207,7 +208,7 @@ CREATE TABLE `review_question` (
   `id` int(11) NOT NULL,
   `question` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`question`)),
   `create_date` datetime NOT NULL,
-  `create_by` uuid NOT NULL
+  `create_by` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -244,7 +245,7 @@ CREATE TABLE `table_order` (
   `id` int(11) NOT NULL,
   `table_id` int(11) DEFAULT NULL,
   `note` text NOT NULL,
-  `receive_id` uuid DEFAULT NULL,
+  `receive_id` varchar(100) DEFAULT NULL,
   `timestamp` timestamp NOT NULL,
   `start_date` datetime NOT NULL,
   `end_date` datetime DEFAULT NULL,
@@ -258,7 +259,7 @@ CREATE TABLE `table_order` (
 INSERT INTO `table_order` (`id`, `table_id`, `note`, `receive_id`, `timestamp`, `start_date`, `end_date`, `order_status`) VALUES
 (1, 1, 'test', '2f7b0267-d47d-11ee-a6e5-0242ac120002', '2024-03-02 18:18:00', '2024-03-02 18:00:31', '2024-03-02 18:00:31', 'success'),
 (2, 1, 'test2', '2f7b0267-d47d-11ee-a6e5-0242ac120002', '2024-03-02 18:03:50', '2024-03-02 18:00:31', '2024-03-02 18:00:31', NULL),
-(3, 2, '', '181ab56c-d1a3-11ee-9e18-0242ac120002', '2024-03-04 09:51:01', '2024-03-04 09:51:01', NULL, NULL);
+(4, 2, '', '181ab56c-d1a3-11ee-9e18-0242ac120002', '2024-03-04 10:19:39', '2024-03-04 10:16:41', '2024-03-04 11:16:41', NULL);
 
 -- --------------------------------------------------------
 
@@ -289,15 +290,17 @@ INSERT INTO `table_status` (`table_status`, `table_status_desc`, `active`) VALUE
 CREATE TABLE `table_type` (
   `table_type` varchar(50) NOT NULL,
   `no_can_receive` int(11) NOT NULL,
-  `time_limit` float NOT NULL
+  `time_limit` float NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `table_type`
 --
 
-INSERT INTO `table_type` (`table_type`, `no_can_receive`, `time_limit`) VALUES
-('1person', 1, 0);
+INSERT INTO `table_type` (`table_type`, `no_can_receive`, `time_limit`, `active`) VALUES
+('1person', 1, 0, 1),
+('2person', 2, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -306,7 +309,7 @@ INSERT INTO `table_type` (`table_type`, `no_can_receive`, `time_limit`) VALUES
 --
 
 CREATE TABLE `user` (
-  `id` uuid NOT NULL DEFAULT uuid(),
+  `id` varchar(100) NOT NULL DEFAULT (MD5(RAND())),
   `email` varchar(100) NOT NULL,
   `password` varchar(100) DEFAULT NULL,
   `role` varchar(50) DEFAULT NULL,
@@ -379,7 +382,8 @@ ALTER TABLE `order_bill`
   ADD PRIMARY KEY (`id`),
   ADD KEY `order_by` (`order_by`),
   ADD KEY `waiter_id` (`waiter_id`),
-  ADD KEY `status` (`status`);
+  ADD KEY `status` (`status`),
+  ADD KEY `table_id` (`table_id`);
 
 --
 -- Indexes for table `order_status`
@@ -517,7 +521,7 @@ ALTER TABLE `table_info`
 -- AUTO_INCREMENT for table `table_order`
 --
 ALTER TABLE `table_order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -541,7 +545,8 @@ ALTER TABLE `menu`
 ALTER TABLE `order_bill`
   ADD CONSTRAINT `order_bill_ibfk_1` FOREIGN KEY (`order_by`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
   ADD CONSTRAINT `order_bill_ibfk_2` FOREIGN KEY (`waiter_id`) REFERENCES `employee` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `order_bill_ibfk_3` FOREIGN KEY (`status`) REFERENCES `order_status` (`order_status`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `order_bill_ibfk_3` FOREIGN KEY (`status`) REFERENCES `order_status` (`order_status`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `order_bill_ibfk_4` FOREIGN KEY (`table_id`) REFERENCES `table_info` (`table_id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Constraints for table `order_transaction`

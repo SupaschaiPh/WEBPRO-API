@@ -8,6 +8,7 @@ include "../../lib/user.php";
 
 try {
     checkRequirekeyQuery($_POST, array("email", "password", "name", "lastname"));
+    $_POST = bodyCanNull($_POST,array("tel"));
     $res = createUser($_POST["email"], $_POST["password"], $_POST["name"], $_POST["lastname"], $_POST["tel"]);
     if ($res)
         echo json_encode(array_merge(
