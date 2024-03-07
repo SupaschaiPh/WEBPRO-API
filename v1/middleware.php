@@ -18,7 +18,6 @@ define(
         "/v1/order/",
         "/v1/order/status/",
         "/v1/order/transaction/"
-
     )
 );
 define(
@@ -36,7 +35,9 @@ define(
         "/v1/table/status/add/",
         "/v1/order/add/",
         "/v1/order/status/add/",
-        "/v1/order/transaction/add/"
+        "/v1/order/transaction/add/",
+        "/v1/order/transaction/accept/"
+
     )
 );
 
@@ -52,7 +53,8 @@ define(
         "/v1/table/status/edit/",
         "/v1/table/type/edit/",
         "/v1/order/edit/",
-        "/v1/order/status/edit/"
+        "/v1/order/status/edit/",
+        "/v1/order/transaction/edit/",
     )
 );
 
@@ -68,7 +70,8 @@ define(
         "/v1/table/status/remove/",
         "/v1/table/type/remove/",
         "/v1/table/order/remove/",
-        "/v1/order/status/remove/"
+        "/v1/order/status/remove/",
+        "/v1/order/transaction/remove/"
     )
 );
 
@@ -78,7 +81,8 @@ define(
         "/v1/session/",
         "/v1/logout/",
         "/v1/table/order/add/",
-        "/v1/order/edit/"
+        "/v1/order/edit/",
+        "/v1/order/transaction/accept/"
     )
 );
 

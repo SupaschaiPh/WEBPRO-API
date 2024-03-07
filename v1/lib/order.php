@@ -209,19 +209,23 @@ function getOrderTransaction($limit = null, $offset = 0, $filters = null)
     }
     if ($limit != null) {
         $sql = 'SELECT
-                 *,
-                order_transaction.id as "id"
-            FROM
-                `order_transaction`
-            JOIN `order_bill` ON order_bill.id = order_transaction.order_bill_id
-            JOIN `menu` USING (menu_id)
-            ' . filterObjToSQL($conn, $filters) . ' 
-            LIMIT ' . intval($limit) . " OFFSET " . intval($offset) . ";";
+                *,
+                order_transaction.id as "id",
+                order_transaction.id as "order_transaction_id",
+                menu.active as "menu_active"
+                FROM
+                    `order_transaction`
+                JOIN `order_bill` ON order_bill.id = order_transaction.order_bill_id
+                JOIN `menu` USING (menu_id)
+                ' . filterObjToSQL($conn, $filters) . ' 
+                LIMIT ' . intval($limit) . " OFFSET " . intval($offset) . ";";
     } else {
         //Code
         $sql = 'SELECT
                 *,
-                order_transaction.id as "id"       
+                order_transaction.id as "id",
+                order_transaction.id as "order_transaction_id",
+                menu.active as "menu_active"  
                 FROM
                     `order_transaction`
                 JOIN `order_bill` ON order_bill.id = order_transaction.order_bill_id
@@ -241,12 +245,13 @@ function getOrderTransaction($limit = null, $offset = 0, $filters = null)
     return $hold;
 }
 
-function addOrederTransaction(
+function addOrderTransaction(
     $order_bill_id,
     $menu_id,
     $count,
     $menu_price,
-    $response_by = null
+    $response_by = null,
+    $trans_status = null
 ) {
     if (
         (!(is_int($menu_price) || is_float($menu_price))) &&
@@ -261,7 +266,8 @@ function addOrederTransaction(
             `menu_id`,
             `count`,
             `menu_price`,
-            `response_by`
+            `response_by`,
+            `trans_status`
         )
         VALUES(
             NULL, 
@@ -269,7 +275,9 @@ function addOrederTransaction(
             '" . mysqli_real_escape_string($conn, $menu_id) . "', 
             '" . mysqli_real_escape_string($conn, $count) . "', 
             '" . mysqli_real_escape_string($conn, $menu_price) . "', 
-            " . setOrNull($conn, $response_by) . ")";
+            " . setOrNull($conn, $response_by) . " ,
+            " . setOrNull($conn, $trans_status) . "
+            )";
         mysqli_query($conn, $sql);
         mysqli_close($conn);
         return true;
@@ -279,12 +287,68 @@ function addOrederTransaction(
     }
 }
 
+function editOrderTransaction(
+    $id,
+    $order_bill_id  = null,
+    $menu_id  = null,
+    $count  = null,
+    $menu_price  = null,
+    $response_by = null,
+    $trans_status = null
+) {
+    if ($count != null && $menu_price != null) {
+        if (
+            (!(is_int($menu_price) || is_float($menu_price))) &&
+            (!(is_int($count) || is_float($count)))
+        ) return false;
+    }
+    include __DIR__ . "/../connect.php";
+    $setsql = "";
+    $setsql = setSQLSet($conn, $setsql, "order_bill_id", $order_bill_id);
+    $setsql = setSQLSet($conn, $setsql, "menu_id", $menu_id);
+    $setsql = setSQLSet($conn, $setsql, "count", $count);
+    $setsql = setSQLSet($conn, $setsql, "menu_price", $menu_price	);
+    $setsql = setSQLSet($conn, $setsql, "response_by", $response_by);
+    $setsql = setSQLSet($conn, $setsql, "trans_status", $trans_status);
+    try {
+        $sql = "UPDATE
+                    `order_transaction`
+                SET
+                    " . $setsql . "
+                WHERE
+                `order_transaction`.id = '" . mysqli_real_escape_string($conn, $id) . "';";
+        mysqli_query($conn, $sql);
+        return checkItEdited($conn);
+    } catch (\Throwable $th) {
+        mysqli_close($conn);
+        return false;
+    }
+}
+
+function removeOrederTransaction($id)
+{
+    //Hard remove
+    include __DIR__ . "/../connect.php";
+    try {
+        $sql = "DELETE
+                FROM
+                    order_transaction
+                WHERE
+                    `order_transaction`.`id` = " . mysqli_real_escape_string($conn, $id) . ";";
+        mysqli_query($conn, $sql);
+        //mysqli_close($conn);
+        return checkItEdited($conn);
+    } catch (\Throwable $th) {
+        mysqli_close($conn);
+        return false;
+    }
+}
 
 
 
 function editOrderStatus($order_status, $description, $new_order_status, $active = null)
 {
-    if ($active!=null && !($active == 0 || $active == 1)) return false;
+    if ($active != null && !($active == 0 || $active == 1)) return false;
     include __DIR__ . "/../connect.php";
     $setsql = "";
     $setsql = setSQLSet($conn, $setsql, "description", $description);
@@ -302,7 +366,6 @@ function editOrderStatus($order_status, $description, $new_order_status, $active
         return checkItEdited($conn);
     } catch (\Throwable $th) {
         mysqli_close($conn);
-        echo $th;
         return false;
     }
 }

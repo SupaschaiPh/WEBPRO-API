@@ -20,11 +20,11 @@ if ((!isset($_SESSION["access_token"])) && isset($_GET['code'])) {
             unset($_SESSION["uinfo"]["password"]);
         }
 
-        header('Location: /');
+        header('Location: '. isset(CONFIG["FRONTEND_URL"]) ? CONFIG["FRONTEND_URL"] : "/");
     } else {
         header('Location: ./error.php');
     }
 } else {
     //$client->setAccessToken($_SESSION["access_token"]);    
-    header('Location: /');
+    header('Location: '. isset(CONFIG["FRONTEND_URL"]) ? CONFIG["FRONTEND_URL"] : "/");
 }

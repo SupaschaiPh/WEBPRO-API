@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Mar 06, 2024 at 06:52 AM
+-- Generation Time: Mar 07, 2024 at 11:09 AM
 -- Server version: 11.2.2-MariaDB-1:11.2.2+maria~ubu2204
 -- PHP Version: 8.2.15
 
@@ -44,7 +44,9 @@ CREATE TABLE `employee` (
 --
 
 INSERT INTO `employee` (`id`, `e_name`, `e_lastname`, `duty`, `address`, `start_date`, `end_date`, `salary`, `profile_url`) VALUES
-('6a23d228-d65e-11ee-809e-0242ac120002', 'sooksan', 'ss', 'ceo', 'ss', '2024-03-02 06:24:41', NULL, NULL, NULL);
+('181ab56c-d1a3-11ee-9e18-0242ac120002', 'admin', 'admin', 'co founder', 'kmitl', '2024-03-07 10:59:14', NULL, NULL, NULL),
+('2024-03-06-06-52-11-0311-65e8129b9fbaf', 'supass', 'ss', 'founder', 'kmitl', '2024-03-06 11:30:53', NULL, NULL, NULL),
+('6a23d228-d65e-11ee-809e-0242ac120002', 'sooksan', 'pptx', 'ceo', 'ss', '2024-03-02 06:24:41', '2024-03-06 11:39:50', NULL, '');
 
 -- --------------------------------------------------------
 
@@ -70,7 +72,7 @@ CREATE TABLE `menu` (
 INSERT INTO `menu` (`menu_id`, `title`, `description`, `price`, `last_update_date`, `img_url`, `type`, `active`) VALUES
 (1, 'grill fish', 'มันคือปลาครับ', 100, '2024-03-03 03:57:37', '', 'fish', 1),
 (2, 'grill pork', 'หมูย่าง', 100, '2024-03-03 03:58:04', '', 'pork', 0),
-(3, 'raw pork', 'หมูดิบ', 100, '2024-03-03 03:59:46', '', 'pork', 1),
+(3, 'raw pork', 'หมูดิบ', 50, '2024-03-03 03:59:46', '', 'pork', 1),
 (7, 'raw pork2', 'หมูดิบ', 100, '2024-03-04 08:05:20', '', 'pork', 0),
 (8, 'raw pork2', 'หมูดิบ', 100, '2024-03-04 08:07:05', '', 'pork', 1);
 
@@ -155,18 +157,19 @@ CREATE TABLE `order_transaction` (
   `menu_id` int(11) NOT NULL,
   `count` int(11) NOT NULL,
   `menu_price` float NOT NULL,
-  `response_by` varchar(100) DEFAULT NULL
+  `response_by` varchar(100) DEFAULT NULL,
+  `trans_status` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `order_transaction`
 --
 
-INSERT INTO `order_transaction` (`id`, `order_bill_id`, `menu_id`, `count`, `menu_price`, `response_by`) VALUES
-(1, 1, 2, 2, 200, NULL),
-(2, 1, 1, 1, 1, NULL),
-(3, 1, 1, 1, 0, NULL),
-(4, 1, 1, 1, 100, NULL);
+INSERT INTO `order_transaction` (`id`, `order_bill_id`, `menu_id`, `count`, `menu_price`, `response_by`, `trans_status`) VALUES
+(1, 1, 2, 2, 200, NULL, NULL),
+(2, 1, 1, 1, 1, NULL, NULL),
+(3, 1, 3, 1, 50, NULL, NULL),
+(4, 1, 1, 1, 100, '181ab56c-d1a3-11ee-9e18-0242ac120002', 'cancel');
 
 -- --------------------------------------------------------
 
@@ -399,7 +402,8 @@ ALTER TABLE `order_transaction`
   ADD PRIMARY KEY (`id`),
   ADD KEY `order_bill_id` (`order_bill_id`),
   ADD KEY `menu_id` (`menu_id`),
-  ADD KEY `response_by` (`response_by`);
+  ADD KEY `response_by` (`response_by`),
+  ADD KEY `trans_status` (`trans_status`);
 
 --
 -- Indexes for table `payment`
@@ -492,7 +496,7 @@ ALTER TABLE `order_bill`
 -- AUTO_INCREMENT for table `order_transaction`
 --
 ALTER TABLE `order_transaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `payment`
@@ -555,7 +559,8 @@ ALTER TABLE `order_bill`
 ALTER TABLE `order_transaction`
   ADD CONSTRAINT `order_transaction_ibfk_1` FOREIGN KEY (`order_bill_id`) REFERENCES `order_bill` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `order_transaction_ibfk_3` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`menu_id`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `order_transaction_ibfk_4` FOREIGN KEY (`response_by`) REFERENCES `employee` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `order_transaction_ibfk_4` FOREIGN KEY (`response_by`) REFERENCES `employee` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `order_transaction_ibfk_5` FOREIGN KEY (`trans_status`) REFERENCES `order_status` (`order_status`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Constraints for table `payment`
