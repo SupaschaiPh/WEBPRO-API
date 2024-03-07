@@ -75,9 +75,9 @@ function getEmployees($limit = null, $offset = 0, $filters = null)
     }
 
     if ($limit != null) {
-        $sql = "SELECT * FROM employee JOIN user USING (id) " . filterObjToSQL($conn, $filters) . " LIMIT " . intval($limit) . " OFFSET " . intval($offset);
+        $sql = "SELECT *, 'xxxxxx' as 'password' FROM employee JOIN user USING (id) " . filterObjToSQL($conn, $filters) . " LIMIT " . intval($limit) . " OFFSET " . intval($offset);
     } else {
-        $sql = "SELECT * FROM employee JOIN user USING (id) " . filterObjToSQL($conn, $filters) . " ;";
+        $sql = "SELECT *, 'xxxxxx' as 'password' FROM employee JOIN user USING (id) " . filterObjToSQL($conn, $filters) . " ;";
     }
     $res = mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
     $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(id) FROM employee JOIN user USING (id) " . filterObjToSQL($conn, $filters) . " ;"));

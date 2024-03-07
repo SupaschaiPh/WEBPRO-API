@@ -53,3 +53,19 @@ function getPayments($limit=null,$offset=0, $filters = null){
 function pay(){
     $_SESSION["in_progress"] = false;
 }
+/**
+ * INSERT INTO `payment`(
+    `id`,
+    `bill_id`,
+    `evidence`,
+    `paid_to`,
+    `paid_date`
+)
+VALUES(
+    NULL,
+    '1',
+    'check',
+    '6a23d228-d65e-11ee-809e-0242ac120002',
+    '2024-03-07 11:52:14.000000'
+);
+ */
