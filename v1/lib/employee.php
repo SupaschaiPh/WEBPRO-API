@@ -38,6 +38,9 @@ function regisEmployee($id, $name, $lastname, $address, $duty,$salary  = null,$p
 
 function editEmployee($id, $e_name, $e_lastname, $address, $duty,$salary,$start_date,$end_date,$profile_url)
 {
+    if( ($start_date!= null && strtotime($start_date)) || ($end_date!= null && strtotime($end_date)) ){
+        return false;
+    }
     if($salary!=null &&  (is_int($salary) || is_float($salary)))return false;
     include __DIR__ . "/../connect.php";
     $setsql = "";

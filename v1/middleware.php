@@ -82,13 +82,15 @@ define(
         "/v1/logout/",
         "/v1/table/order/add/",
         "/v1/order/edit/",
-        "/v1/order/transaction/accept/"
+        "/v1/order/transaction/accept/",
+        "/v1/payment/genqr/"
     )
 );
 
 define(
     "STAFF_ROUTE",
     array(
+        
     )
 );
 $json = file_get_contents("php://input",true);

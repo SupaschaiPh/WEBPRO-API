@@ -17,7 +17,7 @@ INSERT INTO `user` (`id`, `email`, `password`, `role`, `name`, `lastname`, `tel`
 VALUES (
     '".genUniqueKey()."', 
     '" . mysqli_real_escape_string($conn, $email) . "',    
-     " . (isset($password) ? ("'" . mysqli_real_escape_string($conn, $password) . "'") : "NULL") . ",
+     " . setOrNull($conn,$password) . ",
     'customer',
     '" . mysqli_real_escape_string($conn, $name) . "', 
     '" . mysqli_real_escape_string($conn, $lastname) . "',
@@ -31,9 +31,8 @@ VALUES (
     return $res;
 }
 
-function editUser($uid, $name = null, $lastname = null, $tel = null, $role = null, $active = 1)
+function editUser($uid, $name = null, $lastname = null, $tel = null, $role = null, $active = 1,$password=null)
 {
-    #check username
     if (!($active == 0 || $active == 1)) {
         return $active = 1;
     }
@@ -46,6 +45,8 @@ function editUser($uid, $name = null, $lastname = null, $tel = null, $role = nul
         $setsql = setSQLSet($conn, $setsql, "tel", $tel);
         $setsql = setSQLSet($conn, $setsql, "role", $role);
         $setsql = setSQLSet($conn, $setsql, "active", $active);
+        $setsql = setSQLSet($conn, $setsql, "password", $password);
+
         $sql = "
     UPDATE
     `user`

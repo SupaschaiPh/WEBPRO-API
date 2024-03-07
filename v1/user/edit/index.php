@@ -8,8 +8,8 @@ include "../../lib/user.php";
 
 try {
     checkRequirekeyQuery($_POST, array("id"));
-    $_POST = array_merge($_POST,bodyCanNull($_POST, array("name", "lastname","role","active","tel")));
-    $res = editUser($_POST["id"], $_POST["name"], $_POST["lastname"], $_POST["tel"],$_POST["role"], $_POST["active"]);
+    $_POST = array_merge($_POST,bodyCanNull($_POST, array("name", "lastname","role","active","tel","password")));
+    $res = editUser($_POST["id"], $_POST["name"], $_POST["lastname"], $_POST["tel"],$_POST["role"], $_POST["active"], $_POST["password"]);
     if ($res){
         echo json_encode(
             array(

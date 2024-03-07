@@ -33,7 +33,7 @@ function filterObjToSQL($conn, $filterObjStr)
             $filterType  = $filter['type'];
             switch ($filterType) {
                 case 'equal':
-                    $whereClause .= "$filterField = ".mysqli_real_escape_string($conn,$filterValue)."";
+                    $whereClause .= "$filterField = '".mysqli_real_escape_string($conn,$filterValue)."'";
                     break;
                 case 'in':
                     $whereClause .= "$filterField IN ".mysqli_real_escape_string($conn,$filterValue)."";

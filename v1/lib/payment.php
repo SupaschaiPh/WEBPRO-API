@@ -1,12 +1,17 @@
 <?php
 include_once __DIR__ . "/../lib/util.php";
 
-function getPayments($limit=null,$offset=0, $filters = null){
-    include __DIR__."/../connect.php";
-    if($offset<0){$offset=0;}
-    if($limit<0){$limit=0;}
-    if($limit != null){
-        $sql= 'SELECT
+function getPayments($limit = null, $offset = 0, $filters = null)
+{
+    include __DIR__ . "/../connect.php";
+    if ($offset < 0) {
+        $offset = 0;
+    }
+    if ($limit < 0) {
+        $limit = 0;
+    }
+    if ($limit != null) {
+        $sql = 'SELECT
         payment.id,
         payment.bill_id,
         order_bill.table_id as "table_id",
@@ -22,10 +27,10 @@ function getPayments($limit=null,$offset=0, $filters = null){
         `payment`
     JOIN order_bill ON payment.id = order_bill.id
     JOIN employee ON payment.paid_to = employee.id
-    ' . filterObjToSQL($conn, $filters) .'
+    ' . filterObjToSQL($conn, $filters) . '
     LIMIT ' . intval($limit) . " OFFSET " . intval($offset) . ";";
-    }else{
-        $sql= 'SELECT
+    } else {
+        $sql = 'SELECT
         payment.id,
         payment.bill_id,
         order_bill.table_id as "table_id",
@@ -40,9 +45,9 @@ function getPayments($limit=null,$offset=0, $filters = null){
     FROM
         `payment`
     JOIN order_bill ON payment.id = order_bill.id
-    JOIN employee ON payment.paid_to = employee.id' . filterObjToSQL($conn, $filters) .';';
+    JOIN employee ON payment.paid_to = employee.id' . filterObjToSQL($conn, $filters) . ';';
     }
-    $res = mysqli_fetch_all(mysqli_query($conn,$sql),MYSQLI_ASSOC);
+    $res = mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
     $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(id) FROM payment " . filterObjToSQL($conn, $filters) . " ;"));
     $hold["data"] = $res;
     $hold["limit"] = $maximumlimit[0][0];
@@ -50,8 +55,35 @@ function getPayments($limit=null,$offset=0, $filters = null){
     return $hold;
 }
 
-function pay(){
+function addPayment($bill_id, $evidence, $paid_to, $paid_date = null)
+{
+    if ($paid_date != null && strtotime($paid_date)) {
+        return false;
+    }
     $_SESSION["in_progress"] = false;
+    include __DIR__ . "/../connect.php";
+    try {
+        $sql = "INSERT INTO `payment`(
+            `id`,
+            `bill_id`,
+            `evidence`,
+            `paid_to`,
+            `paid_date`
+        )
+        VALUES(
+            NULL,
+            '" . mysqli_real_escape_string($conn, $bill_id) . "',
+            '" . mysqli_real_escape_string($conn, $evidence) . "',
+            '" . mysqli_real_escape_string($conn, $paid_to) . "',
+            " . $paid_date != null ? $paid_date : getSQLdatetimeFormat() . "
+        );";
+        mysqli_query($conn, $sql);
+        mysqli_close($conn);
+        return true;
+    } catch (\Throwable $th) {
+        mysqli_close($conn);
+        return false;
+    }
 }
 /**
  * INSERT INTO `payment`(
