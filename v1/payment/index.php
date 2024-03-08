@@ -4,16 +4,21 @@ include "../generalFn.php";
 include "../middleware.php";
 include "../lib/payment.php";
 try {
-    $offset = null;
+    $offset = 0;
     $limit = null;
+    $filters = null;
     if(key_exists("offset",$_GET)){
         $offset = $_GET["offset"];
     }
     if(key_exists("limit",$_GET)){
         $limit = $_GET["limit"];
     }
+    if(key_exists("filters",$_GET)){
+        $filters = $_GET["filters"];
+        $filters = json_encode($filters,true);
+    }
     //Logic here
-    echo json_encode(getPayments($limit,$offset));
+    echo json_encode(getPayments($limit,$offset,$filters));
 } catch (Throwable $th) {
     if (strcmp(CONFIG["SHOW_DEBUG"],"true") == 0) {
         echo $th;

@@ -17,28 +17,37 @@ try {
     //echo $sa;
     //echo "\n".$_GET["checksum"];
     if ($employeeCheck && password_verify($sa, $_GET["checksum"])) {
-
         //$checkSum = password_hash($sa.$_SESSION["uinfo"]["id"],PASSWORD_DEFAULT);
-        $evidence = "pay to " . $_GET["pay_to"] . " by qrcode @ " . date("Y.m.d H:i:s");
-        echo json_encode(
+        if (intval(getPayments(1, 0, json_encode(array(
             array(
-                "status" => "success"
+                "key" => "bill_id",
+                "type" => "equal",
+                "filter" => $_GET["bill_id"]
             )
-        );
-        /*if (addPayment($_GET["bill_id"], $evidence, $_GET["paid_to"], null)) {
-            echo json_encode(
-                array(
-                    "status" => "success"
-                )
-            );
+        )))["limit"]) > 0) {
+            $evidence = "pay to " . $_GET["pay_to"] . " by qrcode @ " . date("Y.m.d H:i:s");
+            if (addPayment($_GET["bill_id"], $evidence, $_GET["paid_to"], null)) {
+                echo json_encode(
+                    array(
+                        "status" => "success"
+                    )
+                );
+            } else {
+                echo json_encode(
+                    array(
+                        "status" => "fail",
+                        "message" => "pls check payload datas type are correct?, table_id or status(order_status) not match"
+                    )
+                );
+            }
         } else {
             echo json_encode(
                 array(
                     "status" => "fail",
-                    "message" => "pls check payload datas type are correct?, table_id or status(order_status) not match"
+                    "message" => "this bill already paid"
                 )
             );
-        }*/
+        }
     } else {
         echo json_encode(
             array(

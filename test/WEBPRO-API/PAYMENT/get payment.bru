@@ -6,6 +6,18 @@ meta {
 
 get {
   url: http://localhost:8080/v1/payment/
-  body: none
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "filters": [
+      {
+        "key":"bill_id",
+        "type":"equal",
+        "filter": "2"
+      }
+    ]
+  }
 }
