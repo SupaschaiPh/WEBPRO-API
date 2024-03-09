@@ -11,6 +11,7 @@ function getSQLdatetimeFormat()
 {
     $timestamp = time();
     $dateTime = new DateTime("@$timestamp");
+    $dateTime->setTimezone(new DateTimeZone("Asia/Bangkok"));
     $sqlDatetime = $dateTime->format('Y-m-d H:i:s');
     return "'" . $sqlDatetime . "'";
 }

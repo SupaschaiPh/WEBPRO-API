@@ -1,5 +1,6 @@
 <?php
 define("CONFIG", parse_ini_file(__DIR__ . "/../config.ini"));
+date_default_timezone_set("Asia/Bangkok");
 
 if (session_status() != PHP_SESSION_ACTIVE) {
     session_start();
