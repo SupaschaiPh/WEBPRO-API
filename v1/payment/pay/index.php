@@ -24,9 +24,9 @@ try {
                 "type" => "equal",
                 "filter" => $_GET["bill_id"]
             )
-        )))["limit"]) > 0) {
-            $evidence = "pay to " . $_GET["pay_to"] . " by qrcode @ " . date("Y.m.d H:i:s");
-            if (addPayment($_GET["bill_id"], $evidence, $_GET["paid_to"], null)) {
+        )))["limit"]) <= 0) {
+            $evidence = "pay to " . $_GET["pay_to"] . " by qrcode or link @ " . date("Y.m.d H:i:s");
+            if (addPayment($_GET["bill_id"], $evidence, $_GET["pay_to"], null)) {
                 echo json_encode(
                     array(
                         "status" => "success"
@@ -44,7 +44,7 @@ try {
             echo json_encode(
                 array(
                     "status" => "fail",
-                    "message" => "this bill already paid"
+                    "message" => "this bill already paid, or not found bill id"
                 )
             );
         }

@@ -60,7 +60,6 @@ function addPayment($bill_id, $evidence, $paid_to, $paid_date = null)
     if ($paid_date != null && strtotime($paid_date)) {
         return false;
     }
-    $_SESSION["in_progress"] = false;
     include __DIR__ . "/../connect.php";
     try {
         $sql = "INSERT INTO `payment`(
@@ -75,10 +74,11 @@ function addPayment($bill_id, $evidence, $paid_to, $paid_date = null)
             '" . mysqli_real_escape_string($conn, $bill_id) . "',
             '" . mysqli_real_escape_string($conn, $evidence) . "',
             '" . mysqli_real_escape_string($conn, $paid_to) . "',
-            " . $paid_date != null ? $paid_date : getSQLdatetimeFormat() . "
+            " . ($paid_date != null ? $paid_date : getSQLdatetimeFormat()) . "
         );";
         mysqli_query($conn, $sql);
         mysqli_close($conn);
+        $_SESSION["in_progress"] = false;
         return true;
     } catch (\Throwable $th) {
         mysqli_close($conn);
@@ -101,3 +101,20 @@ VALUES(
     '2024-03-07 11:52:14.000000'
 );
  */
+
+
+function deletePayment($id,$bill_id){
+    //"DELETE FROM payment WHERE `payment`.`id` = "
+    include __DIR__ . "/../connect.php";
+    try {
+        $sql = "DELETE FROM payment WHERE `payment`.`id` = ".$id." AND `payment`.`bill_id` = ".$bill_id;
+        mysqli_query($conn, $sql);
+        mysqli_close($conn);
+        $_SESSION["latest_delete_bill_id"] = $bill_id;
+        return true;
+    } catch (\Throwable $th) {
+        mysqli_close($conn);
+        return false;
+    }
+}
+

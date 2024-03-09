@@ -1,0 +1,18 @@
+meta {
+  name: hard remove
+  type: http
+  seq: 4
+}
+
+delete {
+  url: http://localhost:8080/v1/payment/remove/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": 2,
+    "bill_id": 2
+  }
+}

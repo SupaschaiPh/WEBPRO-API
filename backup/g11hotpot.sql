@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Mar 07, 2024 at 11:09 AM
+-- Generation Time: Mar 08, 2024 at 12:09 PM
 -- Server version: 11.2.2-MariaDB-1:11.2.2+maria~ubu2204
 -- PHP Version: 8.2.15
 
@@ -44,9 +44,24 @@ CREATE TABLE `employee` (
 --
 
 INSERT INTO `employee` (`id`, `e_name`, `e_lastname`, `duty`, `address`, `start_date`, `end_date`, `salary`, `profile_url`) VALUES
-('181ab56c-d1a3-11ee-9e18-0242ac120002', 'admin', 'admin', 'co founder', 'kmitl', '2024-03-07 10:59:14', NULL, NULL, NULL),
-('2024-03-06-06-52-11-0311-65e8129b9fbaf', 'supass', 'ss', 'founder', 'kmitl', '2024-03-06 11:30:53', NULL, NULL, NULL),
-('6a23d228-d65e-11ee-809e-0242ac120002', 'sooksan', 'pptx', 'ceo', 'ss', '2024-03-02 06:24:41', '2024-03-06 11:39:50', NULL, '');
+('181ab56c-d1a3-11ee-9e18-0242ac120002', 'admin', 'admin', NULL, 'kmitl', '2024-03-07 10:59:14', NULL, NULL, NULL),
+('2024-03-06-06-52-11-0311-65e8129b9fbaf', 'supass', 'ss', NULL, 'kmitl', '2024-03-06 11:30:53', NULL, NULL, NULL),
+('2024-03-07-12-27-07-0307-65e9b29b01de2', 'supass', 'project', NULL, 'kmitl', '2024-03-07 12:38:17', NULL, NULL, NULL),
+('2024-03-08-11-27-44-0344-65eaf630c7d8c', 'manager', 'manager', 'manager', 'sooksan hotpot', '2024-03-08 11:42:27', NULL, NULL, NULL),
+('2024-03-08-11-29-17-0317-65eaf68d41743', 'cashier', 'cashier', 'cashier', 'sooksan hotpot', '2024-03-08 11:43:07', NULL, NULL, NULL),
+('2024-03-08-11-29-31-0331-65eaf69b4a3cf', 'chef', 'chef', 'chef', 'sooksan hotpot', '2024-03-08 11:43:27', NULL, NULL, NULL),
+('2024-03-08-11-29-42-0342-65eaf6a6d5c5b', 'service', 'service', 'service', 'sooksan hotpot', '2024-03-08 11:44:04', NULL, NULL, NULL),
+('2024-03-08-11-47-29-0329-65eafad1b9bd4', 'table1', 'table@sooksanHp', 'service', 'sooksan hotpot', '2024-03-08 12:00:43', NULL, NULL, NULL),
+('2024-03-08-11-47-43-0343-65eafadf45ba0', 'table2', 'table@sooksanHp', 'service', 'sooksan hotpot', '2024-03-08 12:01:07', NULL, NULL, NULL),
+('2024-03-08-11-47-49-0349-65eafae5bdaca', 'table3', 'table@sooksanHp', 'service', 'sooksan hotpot', '2024-03-08 12:07:05', NULL, NULL, NULL),
+('2024-03-08-11-47-55-0355-65eafaeb0a3c9', 'table4', 'table@sooksanHp', 'service', 'sooksan hotpot', '2024-03-08 12:07:05', NULL, NULL, NULL),
+('2024-03-08-11-48-03-0303-65eafaf3c054b', 'table5', 'table@sooksanHp', 'service', 'sooksan hotpot', '2024-03-08 12:07:05', NULL, NULL, NULL),
+('2024-03-08-11-48-09-0309-65eafaf962a19', 'table6', 'table@sooksanHp', 'service', 'sooksan hotpot', '2024-03-08 12:07:05', NULL, NULL, NULL),
+('2024-03-08-11-48-17-0317-65eafb0128a31', 'table7', 'table@sooksanHp', 'service', 'sooksan hotpot', '2024-03-08 12:07:05', NULL, NULL, NULL),
+('2024-03-08-11-48-23-0323-65eafb078e1bb', 'table8', 'table@sooksanHp', 'service', 'sooksan hotpot', '2024-03-08 12:07:05', NULL, NULL, NULL),
+('2024-03-08-11-48-30-0330-65eafb0e49163', 'table9', 'table@sooksanHp', 'service', 'sooksan hotpot', '2024-03-08 12:07:05', NULL, NULL, NULL),
+('2024-03-08-11-48-38-0338-65eafb165e86f', 'table10', 'table@sooksanHp', 'service', 'sooksan hotpot', '2024-03-08 12:07:05', NULL, NULL, NULL),
+('6a23d228-d65e-11ee-809e-0242ac120002', 'sooksan', 'pptx', NULL, 'ss', '2024-03-02 06:24:41', '2024-03-06 11:39:50', NULL, '');
 
 -- --------------------------------------------------------
 
@@ -184,6 +199,13 @@ CREATE TABLE `payment` (
   `paid_to` varchar(100) NOT NULL,
   `paid_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `payment`
+--
+
+INSERT INTO `payment` (`id`, `bill_id`, `evidence`, `paid_to`, `paid_date`) VALUES
+(1, 1, 'check', '6a23d228-d65e-11ee-809e-0242ac120002', '2024-03-07 11:52:14');
 
 -- --------------------------------------------------------
 
@@ -329,6 +351,21 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`id`, `email`, `password`, `role`, `name`, `lastname`, `tel`, `active`) VALUES
 ('181ab56c-d1a3-11ee-9e18-0242ac120002', 'admin@admin', 'adminnn', 'staff', 'boszz', 'kk', NULL, 1),
 ('2024-03-06-06-52-11-0311-65e8129b9fbaf', 'test@supass.com', '123456', 'customer', 'supass', 'pp', NULL, 1),
+('2024-03-07-12-27-07-0307-65e9b29b01de2', 'supassproject@gmail.com', NULL, 'customer', 'supass', 'project', NULL, 1),
+('2024-03-08-11-27-44-0344-65eaf630c7d8c', 'manager@sooksanhotpot', 'manager@sooksanhotpot', 'staff', 'manager', 'g11hotpot', NULL, 1),
+('2024-03-08-11-29-17-0317-65eaf68d41743', 'cashier@sooksanhotpot', 'cashier@sooksanhotpot', 'staff', 'cashier', 'g11hotpot', NULL, 1),
+('2024-03-08-11-29-31-0331-65eaf69b4a3cf', 'chef@sooksanhotpot', 'chef@sooksanhotpot', 'staff', 'chef', 'g11hotpot', NULL, 1),
+('2024-03-08-11-29-42-0342-65eaf6a6d5c5b', 'service@sooksanhotpot', 'service@sooksanhotpot', 'staff', 'service', 'g11hotpot', NULL, 1),
+('2024-03-08-11-47-29-0329-65eafad1b9bd4', 'table1@sooksanhotpot', 'table1@sooksanhotpot', 'table', 'table', 'g11hotpot', NULL, 1),
+('2024-03-08-11-47-43-0343-65eafadf45ba0', 'table2@sooksanhotpot', 'table2@sooksanhotpot', 'table', 'table', 'g11hotpot', NULL, 1),
+('2024-03-08-11-47-49-0349-65eafae5bdaca', 'table3@sooksanhotpot', 'table3@sooksanhotpot', 'table', 'table', 'g11hotpot', NULL, 1),
+('2024-03-08-11-47-55-0355-65eafaeb0a3c9', 'table4@sooksanhotpot', 'table4@sooksanhotpot', 'table', 'table', 'g11hotpot', NULL, 1),
+('2024-03-08-11-48-03-0303-65eafaf3c054b', 'table5@sooksanhotpot', 'table5@sooksanhotpot', 'table', 'table', 'g11hotpot', NULL, 1),
+('2024-03-08-11-48-09-0309-65eafaf962a19', 'table6@sooksanhotpot', 'table6@sooksanhotpot', 'table', 'table', 'g11hotpot', NULL, 1),
+('2024-03-08-11-48-17-0317-65eafb0128a31', 'table7@sooksanhotpot', 'table7@sooksanhotpot', 'table', 'table', 'g11hotpot', NULL, 1),
+('2024-03-08-11-48-23-0323-65eafb078e1bb', 'table8@sooksanhotpot', 'table8@sooksanhotpot', 'table', 'table', 'g11hotpot', NULL, 1),
+('2024-03-08-11-48-30-0330-65eafb0e49163', 'table9@sooksanhotpot', 'table9@sooksanhotpot', 'table', 'table', 'g11hotpot', NULL, 1),
+('2024-03-08-11-48-38-0338-65eafb165e86f', 'table10@sooksanhotpot', 'table10@sooksanhotpot', 'table', 'table', 'g11hotpot', NULL, 1),
 ('2f7b0267-d47d-11ee-a6e5-0242ac120002', '65070242@kmitl.ac.th', NULL, 'customer', 'Supaschai', 'Photichai', NULL, 1),
 ('6a23d228-d65e-11ee-809e-0242ac120002', 'test@supass.github.io0', '123456', 'customer', 'sooksan', 'stattt', '0123456789', 0),
 ('b5a54cdf-d65a-11ee-809e-0242ac120002', 'test@supass.github.io', '123456', 'customer', 'sooksan', 'stat', '0123456789', 1),
@@ -351,7 +388,8 @@ CREATE TABLE `user_role` (
 
 INSERT INTO `user_role` (`role`, `role_desc`) VALUES
 ('customer', 'ลูกค้า'),
-('staff', 'staffstaffstaffstaffstaff');
+('staff', 'staffstaffstaffstaffstaff'),
+('table', 'โต๊ะ');
 
 --
 -- Indexes for dumped tables
@@ -502,7 +540,7 @@ ALTER TABLE `order_transaction`
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `review_answer`
@@ -536,7 +574,7 @@ ALTER TABLE `table_order`
 -- Constraints for table `employee`
 --
 ALTER TABLE `employee`
-  ADD CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`id`) REFERENCES `user` (`id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Constraints for table `menu`

@@ -6,7 +6,7 @@ include_once "../../middleware.php";
 include_once "../../lib/employee.php";
 try{
 $checkSum = null;
-$bill_id = 0;
+$bill_id = 2;
 if (isset($_SESSION["uinfo"]) && isset($_SESSION["uinfo"]["id"])) {
     if (isset($_SESSION["latest_insert_bill_id"])) {
         $bill_id = $_SESSION["latest_insert_bill_id"];
