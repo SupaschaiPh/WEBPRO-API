@@ -41,7 +41,9 @@ define(
         "/v1/order/status/add/",
         "/v1/order/transaction/add/",
         "/v1/order/transaction/accept/",
-        "/v1/payment/add/"
+        "/v1/payment/add/",
+        "/v1/review/ans/add/"
+
     )
 );
 
