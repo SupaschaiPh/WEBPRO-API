@@ -25,6 +25,7 @@ try {
     if (strcmp(CONFIG["SHOW_DEBUG"], "true")) {
         echo $th;
     } else {
+        echo $th;
         http_response_code(503);
     }
 }

@@ -201,9 +201,9 @@ function getTableType($limit = null, $offset = 0)
 
 function addTableType($table_type, $no_can_receive, $time_limit)
 {
-    if (!(is_int($no_can_receive) && (is_float($time_limit) || is_int($time_limit)))) {
+    /*if (!(is_int($no_can_receive) && (is_float($time_limit) || is_int($time_limit)))) {
         return false;
-    }
+    }*/
     include __DIR__ . "/../connect.php";
     try {
         $sql = "INSERT INTO `table_type`(
@@ -223,9 +223,9 @@ function addTableType($table_type, $no_can_receive, $time_limit)
 
 function editTableType($table_type, $no_can_receive =null, $time_limit =null, $new_table_type=null,$active=null)
 {
-    if (($no_can_receive!=null && $time_limit!=null) && !(is_int($no_can_receive) && (is_float($time_limit) || is_int($time_limit)))) {
+   /* if (($no_can_receive!=null && $time_limit!=null) && !(is_int($no_can_receive) && (is_float($time_limit) || is_int($time_limit)))) {
         return false;
-    }
+    }*/
     include __DIR__ . "/../connect.php";
     $setsql = "";
     $setsql = setSQLSet($conn, $setsql, "table_type", $new_table_type);
