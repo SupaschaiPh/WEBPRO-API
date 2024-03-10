@@ -26,7 +26,7 @@ function bodyCanNull($array,$keys){
 
 function uploadFileHandler($bucket_dir = "/bucket/upload/")
 {
-    $target_dir = __DIR__ .$bucket_dir;
+    $target_dir = __DIR__."/..".$bucket_dir;
     $upload_error_msg = "";
     if (isset($_FILES["files"])) {
         $file_name = $_FILES["files"]["name"];
@@ -65,7 +65,7 @@ function uploadFileHandler($bucket_dir = "/bucket/upload/")
             $upload_path = str_replace("","",$upload_path);
 
             if (move_uploaded_file($tmp_name, $upload_path)) {
-                $upload_path = str_replace("/var/www/html","",$upload_path);
+                $upload_path = str_replace("/var/www/html/v1/..","",$upload_path);
                return $upload_path;
             } else {
                 $upload_error_msg = "Failed to move uploaded file.";

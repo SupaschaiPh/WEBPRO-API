@@ -11,7 +11,7 @@ try {
     if (key_exists("profile_url", $_POST)) {
         $img_url = $_POST["profile_url"];
     } else {
-        $file_url_path = uploadFileHandler("/../../bucket/upload/employee/");
+        $file_url_path = uploadFileHandler("/bucket/upload/employee/");
         if ($file_url_path) {
             $img_url = $file_url_path;
         }
