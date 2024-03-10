@@ -1,0 +1,18 @@
+meta {
+  name: edit role
+  type: http
+  seq: 3
+}
+
+put {
+  url: http://localhost:8080/v1/role/edit/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name":"test",
+    "new_name":"tester"
+  }
+}

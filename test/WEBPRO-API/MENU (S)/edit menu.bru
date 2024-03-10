@@ -1,0 +1,19 @@
+meta {
+  name: edit menu
+  type: http
+  seq: 3
+}
+
+put {
+  url: http://localhost:8080/v1/menu/edit/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": 1,
+    "description": "มันคือปลาครับ",
+    "type":"fish"
+  }
+}

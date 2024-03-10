@@ -1,0 +1,18 @@
+meta {
+  name: edit user
+  type: http
+  seq: 3
+}
+
+put {
+  url: http://localhost:8080/v1/user/edit/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+        "id": "2024-03-08-11-27-44-0344-65eaf630c7d8c",
+        "role":"staff"
+  }
+}

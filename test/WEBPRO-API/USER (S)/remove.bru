@@ -1,0 +1,17 @@
+meta {
+  name: remove
+  type: http
+  seq: 4
+}
+
+delete {
+  url: http://localhost:8080/v1/user/remove/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+        "id": "181ab56c-d1a3-11ee-9e18-0242ac120002"
+  }
+}

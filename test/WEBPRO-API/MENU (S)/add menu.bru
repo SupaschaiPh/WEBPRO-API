@@ -1,0 +1,20 @@
+meta {
+  name: add menu
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/v1/menu/add/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title":"raw pork2",
+    "description":"หมูดิบ",
+    "price":100,
+    "type":"pork"
+  }
+}

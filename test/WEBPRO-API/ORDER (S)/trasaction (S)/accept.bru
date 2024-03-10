@@ -1,0 +1,18 @@
+meta {
+  name: accept
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:8080/v1/order/transaction/accept/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": 4,
+    "trans_status":"cancel"
+  }
+}

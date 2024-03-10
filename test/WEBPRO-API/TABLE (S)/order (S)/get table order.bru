@@ -1,0 +1,25 @@
+meta {
+  name: get table order
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:8080/v1/table/order/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "limit":3,
+    "filters":[
+      {
+        "key":"table_id",
+        "type":"equal",
+        "filter":"2"
+        
+      }
+    ]
+  }
+}

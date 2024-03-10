@@ -8,6 +8,8 @@ services:
   db:
     image: mariadb
     restart: always
+    volumes:
+      - ./mariadb:/var/lib/mysql
     environment:
       MARIADB_ROOT_USER: root
       MARIADB_ROOT_PASSWORD: 123456
@@ -15,6 +17,14 @@ services:
       MARIADB_PASSWORD: 123456
       MYSQL_ROOT_HOST: "%"
       MARIADB_ROOT_HOST: "%"
-
     ports:
     - 3306:3306
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - 9090:80
+    environment:
+      - PMA_HOST=db  

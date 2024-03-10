@@ -1,0 +1,64 @@
+meta {
+  name: get users
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:8080/v1/user/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "limit": 100,
+    "offset": 0,
+    "filters": [
+      {
+        "key": "role",
+        "filter": "table"
+      }
+    ]
+  }
+}
+
+docs {
+  # /v1/User
+  
+  allow method `GET` only
+  
+  ---
+  
+  if authorized response should be
+  ```json
+  [
+    {
+      "role": "customer",
+      "id": "6a23d228-d65e-11ee-809e-0242ac120002",
+      "email": "test@supass.github.io0",
+      "password": "123456",
+      "name": "sooksan",
+      "lastname": "stat",
+      "tel": "0123456789",
+      "active": "1",
+      "role_desc": "ลูกค้า"
+    },
+    {
+      "role": "customer",
+      "id": "db9881d8-d1a6-11ee-9e18-0242ac120002",
+      "email": "admin@adminn",
+      "password": "admin",
+      "name": "boszz",
+      "lastname": "kk",
+      "tel": null,
+      "active": "1",
+      "role_desc": "ลูกค้า"
+    }
+  ]
+  ```
+  if not may response with http response code 401 Unauthorized
+  
+  
+  
+}

@@ -1,0 +1,23 @@
+meta {
+  name: get menu type
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:8080/v1/menu/type/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "filters":[
+      {
+        "key":"active",
+        "type":"equal",
+        "filter":"1"
+      }
+    ]
+  }
+}

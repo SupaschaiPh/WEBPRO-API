@@ -1,0 +1,21 @@
+meta {
+  name: regis employee
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/v1/employee/add/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": "2024-03-08-11-47-43-0343-65eafadf45ba0",
+    "name":"table2",
+    "lastname":"table@sooksanHp",
+    "address":"sooksan hotpot",
+    "duty":"service"
+  }
+}
