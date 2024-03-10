@@ -28,3 +28,12 @@ services:
       - 9090:80
     environment:
       - PMA_HOST=db  
+  phpmyadminIserve:
+    image: phpmyadmin
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - 9090:80
+    environment:
+      - PMA_HOST=161.246.127.24:9053
