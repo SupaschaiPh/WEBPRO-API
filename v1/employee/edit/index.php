@@ -8,8 +8,8 @@ include "../../lib/employee.php";
 
 try {
     $img_url = "";
-    if (key_exists("img_url", $_POST)) {
-        $img_url = $_POST["img_url"];
+    if (key_exists("profile_url", $_POST)) {
+        $img_url = $_POST["profile_url"];
     } else {
         $file_url_path = uploadFileHandler("/../../bucket/upload/employee/");
         if ($file_url_path) {
