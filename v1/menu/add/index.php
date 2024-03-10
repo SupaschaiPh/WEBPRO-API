@@ -8,7 +8,7 @@ try {
     if (key_exists("img_url", $_POST)) {
         $img_url = $_POST["img_url"];
     } else {
-        $file_url_path = uploadFileHandler("/../../bucket/upload/menu");
+        $file_url_path = uploadFileHandler("/bucket/upload/menu/");
         if ($file_url_path) {
             $img_url = $file_url_path;
         }

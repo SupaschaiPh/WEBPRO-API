@@ -24,15 +24,14 @@ function bodyCanNull($array,$keys){
     return $array;
 }
 
-function uploadFileHandler($bucket_dir = "/../../bucket/upload/")
+function uploadFileHandler($bucket_dir = "/bucket/upload/")
 {
     $target_dir = __DIR__ .$bucket_dir;
     $upload_error_msg = "";
-    if (isset($_FILES["image"])) {
-
-        $file_name = $_FILES["image"]["name"];
-        $tmp_name = $_FILES["image"]["tmp_name"];
-        $file_error = $_FILES["image"]["error"];
+    if (isset($_FILES["files"])) {
+        $file_name = $_FILES["files"]["name"];
+        $tmp_name = $_FILES["files"]["tmp_name"];
+        $file_error = $_FILES["files"]["error"];
 
         $allowed_extensions = ["jpg", "jpeg", "png", "gif", "webp"];
         $file_extension = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
@@ -53,20 +52,27 @@ function uploadFileHandler($bucket_dir = "/../../bucket/upload/")
             }
         }
 
-        if (empty($upload_error_msg)) {
-            $new_filename = uniqid() . "." . $file_extension;
 
-            if (!file_exists($target_dir)) {
+        if (strcmp($upload_error_msg,"")==0) {
+            $new_filename = uniqid() . "." . str_replace(" ","",$file_extension);
+
+            if (!is_dir($target_dir) && !file_exists($target_dir)) {
                 mkdir($target_dir, 0777, true);
             }
 
             $upload_path = $target_dir . $new_filename;
+            
+            $upload_path = str_replace("","",$upload_path);
+
             if (move_uploaded_file($tmp_name, $upload_path)) {
+                $upload_path = str_replace("/var/www/html","",$upload_path);
                return $upload_path;
             } else {
                 $upload_error_msg = "Failed to move uploaded file.";
                 return false;
             }
+        }else{
+            return false;
         }
     }
 }

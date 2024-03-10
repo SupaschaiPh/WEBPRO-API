@@ -47,7 +47,7 @@ function getMenuType($limit = null, $offset = 0,$filters = null)
 
 function addMenu($title, $description, $price, $img_url, $type)
 {
-    if(!(is_int($price) || is_float($price)))return false;
+    //if(!(is_int($price) || is_float($price)))return false;
     include __DIR__ . "/../connect.php";
     try {
         
