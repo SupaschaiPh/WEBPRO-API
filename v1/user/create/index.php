@@ -14,7 +14,7 @@ try {
         echo json_encode(array_merge(
             $res,
             array(
-                "status" => "succress"
+                "status" => "success"
             )
         ));
     else

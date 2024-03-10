@@ -13,7 +13,7 @@ try {
     if ($res){
         echo json_encode(
             array(
-                "status" => "succress"
+                "status" => "success"
             )
         );
     }
