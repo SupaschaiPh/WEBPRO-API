@@ -102,9 +102,9 @@ function getUsers($limit = null, $offset = 0, $filters = null)
     }
 
     if ($limit != null) {
-        $sql = "SELECT * FROM user JOIN user_role USING (role) " . filterObjToSQL($conn, $filters) . " LIMIT " . intval($limit) . " OFFSET " . intval($offset);
+        $sql = "SELECT *, 'xxxxxx' as 'password' FROM user JOIN user_role USING (role) " . filterObjToSQL($conn, $filters) . " LIMIT " . intval($limit) . " OFFSET " . intval($offset);
     } else {
-        $sql = "SELECT * FROM user JOIN user_role USING (role) " . filterObjToSQL($conn, $filters) . " ;";
+        $sql = "SELECT *, 'xxxxxx' as 'password' FROM user JOIN user_role USING (role) " . filterObjToSQL($conn, $filters) . " ;";
     }
     $res = mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
     $maximumlimit = mysqli_fetch_all(mysqli_query($conn, "SELECT count(id) FROM user " . filterObjToSQL($conn, $filters) . " ;"));
