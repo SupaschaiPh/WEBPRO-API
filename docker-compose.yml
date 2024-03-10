@@ -34,6 +34,6 @@ services:
     depends_on:
       - db
     ports:
-      - 9090:80
+      - 9091:80
     environment:
       - PMA_HOST=161.246.127.24:9053
