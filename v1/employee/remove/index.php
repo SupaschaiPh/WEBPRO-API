@@ -19,7 +19,7 @@ try {
     else
         echo json_encode(array(
             "status" => "fail",
-            "mss" => "id not found"
+            "mss" => "id not found or don't have anything change"
         ));
 } catch (Throwable $th) {
     if (strcmp(CONFIG["SHOW_DEBUG"], "true")) {
