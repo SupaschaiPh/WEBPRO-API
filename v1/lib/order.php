@@ -157,7 +157,10 @@ function addOrderBill($table_id, $description, $status, $waiter_id = null, $orde
         $_SESSION["latest_insert_bill_id"] = $conn->insert_id;
         $_SESSION["in_progress"] = true;
         mysqli_close($conn);
-        return true;
+        return array(
+            "status"=>"success",
+            "id"=>$conn->insert_id
+        );
     } catch (\Throwable $th) {
         mysqli_close($conn);
         return false;
