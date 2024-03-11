@@ -32,6 +32,8 @@ try {
     if (strcmp(CONFIG["SHOW_DEBUG"], "ture") == 0) {
         echo $th;
     } else {
+        echo $th;
+
         http_response_code(503);
     }
 }
