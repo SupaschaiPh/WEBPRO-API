@@ -10,11 +10,15 @@ try {
     if ($_POST["order_by"]==null && isset($_SESSION["uinfo"]) && isset($_SESSION["uinfo"]["id"])) {
         $order_by = $_SESSION["uinfo"]["id"];
     }
-    if (addOrderBill($_POST["table_id"], $_POST["description"], $_POST["status"], $_POST["waiter_id"], $_POST["order_by"], $_POST["price"], $_POST["discount"])) {
+    $res = addOrderBill($_POST["table_id"], $_POST["description"], $_POST["status"], $_POST["waiter_id"], $_POST["order_by"], $_POST["price"], $_POST["discount"]);
+    if ($res) {
         echo json_encode(
-            array(
-                "status" => "success"
-            )
+         array_merge(
+             array(
+                 "status"=>"success"
+             ),
+             $res
+         )
         );
     } else {
         echo json_encode(
