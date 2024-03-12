@@ -42,12 +42,11 @@ function addReivewAns($review_id,$answer,$fav_score,$review_by=null,$submit_date
                     ".setOrNull($conn,$review_by).",
                     ".setOrNull($conn,$order_id).",
                     '".mysqli_real_escape_string($conn,$answer)."',
-                    '".($submit_date != null ? $submit_date : getSQLdatetimeFormat())."',
-                    '".mysqli_real_escape_string($conn,$fav_score)."'
+                    ".($submit_date != null ? "'".$submit_date."'" : getSQLdatetimeFormat()).",
+                    ".setOrNull($conn,$fav_score)."
                 )";
         mysqli_query($conn, $sql);
         mysqli_close($conn);
-        $_SESSION["in_progress"] = false;
         return true;
     } catch (\Throwable $th) {
         mysqli_close($conn);
