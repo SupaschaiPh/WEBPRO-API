@@ -5,7 +5,15 @@ meta {
 }
 
 post {
-  url: 
-  body: none
+  url: http://localhost:8080/v1/payment/add/
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "bill_id":3,
+    "paid_to":"2024-03-06-06-52-11-0311-65e8129b9fbaf",
+    "evidence":"test"
+  }
 }

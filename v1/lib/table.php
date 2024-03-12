@@ -332,6 +332,33 @@ function orderTable($table_id,$note,$receive_id,$start_date=null,$end_date=null,
         return false;
     }
 }
+function editTableOrder($id,$table_id,$note,$receive_id,$start_date=null,$end_date=null,$order_status=null)
+{
+    include __DIR__ . "/../connect.php";
+    $setsql = "";
+    $setsql = setSQLSet($conn, $setsql, "table_id", $table_id);
+    $setsql = setSQLSet($conn, $setsql, "note", $note);
+    $setsql = setSQLSet($conn, $setsql, "receive_id", $receive_id);
+    $setsql = setSQLSet($conn, $setsql, "start_date", $start_date);
+    $setsql = setSQLSet($conn, $setsql, "end_date", $end_date);
+    $setsql = setSQLSet($conn, $setsql, "order_status", $order_status);
+    try {
+        $sql = "
+        UPDATE 
+            `table_order`
+        SET
+            " . $setsql . "
+        WHERE
+            `table_order`.id = '" . mysqli_real_escape_string($conn, $id) . "';
+        ";
+        mysqli_query($conn, $sql);
+        return checkItEdited($conn);
+
+    } catch (\Throwable $th) {
+        mysqli_close($conn);
+        return false;
+    }
+}
 function removeOrderTable($id) {
     include __DIR__ . "/../connect.php";
     try {

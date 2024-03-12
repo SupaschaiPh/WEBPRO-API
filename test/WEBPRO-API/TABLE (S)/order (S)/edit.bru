@@ -1,0 +1,21 @@
+meta {
+  name: edit
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://localhost:8080/v1/table/order/edit/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id":4,
+    "table_id":2,
+    "note":"5555",
+    "start_date":"2024-03-04 10:16:41",
+    "end_date":"2024-03-04 11:16:41"
+  }
+}
