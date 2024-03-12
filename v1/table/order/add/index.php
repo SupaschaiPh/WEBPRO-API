@@ -4,8 +4,8 @@ include "../../../generalFn.php";
 include "../../../middleware.php";
 include "../../../lib/table.php";
 try {
-    checkRequirekeyQuery($_POST, array("table_id", "note", "start_date" ));
-    $_POST  = bodyCanNull($_POST, array("receive_id", "order_status","end_date"));
+    checkRequirekeyQuery($_POST, array( "note", "start_date" ));
+    $_POST  = bodyCanNull($_POST, array("table_id","receive_id", "order_status","end_date"));
     $receive_id = $_POST["receive_id"];
     if (isset($_SESSION["uinfo"]) && isset($_SESSION["uinfo"]["id"])) {
         $receive_id = $_SESSION["uinfo"]["id"];

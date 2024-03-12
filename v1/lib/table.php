@@ -317,7 +317,7 @@ function orderTable($table_id,$note,$receive_id,$start_date=null,$end_date=null,
         )
         VALUES(
             NULL,
-            '".mysqli_real_escape_string($conn,$table_id)."',
+            ".setOrNull($conn,$table_id).",
             '".mysqli_real_escape_string($conn,$note)."',
             '".mysqli_real_escape_string($conn,$receive_id)."',
             NOW(), 
