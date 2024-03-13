@@ -19,11 +19,8 @@ try {
         $filters = json_encode($filters,true);
     }
     //Logic here
-    if (isset($_SESSION["uinfo"]) && strcmp($_SESSION["uinfo"]["role"], "customer") != 0) {
-        echo json_encode(getTables($limit, $offset,$filters));
-    } else {
-        echo json_encode(getTableInfo($limit, $offset,$filters));
-    }
+    echo json_encode(getTables($limit, $offset,$filters));
+    
 } catch (Throwable $th) {
     if (strcmp(CONFIG["SHOW_DEBUG"], "true")) {
         echo $th;
