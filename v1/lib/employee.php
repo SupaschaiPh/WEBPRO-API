@@ -60,7 +60,8 @@ function editEmployee($id, $e_name, $e_lastname, $address, $duty,$salary,$start_
                 WHERE
                     `employee`.`id` = '".$id."'";
         mysqli_query($conn, $sql);
-        return checkItEdited($conn);
+        checkItEdited($conn);
+        return true;
     } catch (\Throwable $th) {
         mysqli_close($conn);
         return false;
