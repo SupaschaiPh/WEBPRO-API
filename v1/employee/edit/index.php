@@ -7,7 +7,7 @@ include "../../lib/employee.php";
 
 
 try {
-    $img_url = "";
+    $img_url = null;
     if (key_exists("profile_url", $_POST)) {
         $img_url = $_POST["profile_url"];
     } else {

@@ -4,7 +4,7 @@ include "../../generalFn.php";
 include "../../middleware.php";
 include "../../lib/menu.php";
 try {
-    $img_url = "";
+    $img_url = null;
     if (key_exists("img_url", $_POST)) {
         $img_url = $_POST["img_url"];
     } else {
