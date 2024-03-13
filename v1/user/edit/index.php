@@ -21,7 +21,7 @@ try {
         if( $_POST["active"] == 1 || $_POST["active"] == 0){
             echo json_encode(array(
                 "status" => "fail",
-                "mss" => "uid not found  or role not match"
+                "mss" => "uid not found  or role not match or don't have any changed"
             ));
         }else{
             echo json_encode(array(
