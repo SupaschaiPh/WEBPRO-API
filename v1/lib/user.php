@@ -18,7 +18,7 @@ VALUES (
     '".genUniqueKey()."', 
     '" . mysqli_real_escape_string($conn, $email) . "',    
      " . setOrNull($conn,$password) . ",
-    'customer',
+    'ลูกค้า',
     '" . mysqli_real_escape_string($conn, $name) . "', 
     '" . mysqli_real_escape_string($conn, $lastname) . "',
     " . setOrNull($conn,$tel) . ",
