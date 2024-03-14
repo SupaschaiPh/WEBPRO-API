@@ -17,8 +17,8 @@ function getOrder($limit = null, $offset = 0, $filters = null)
                 description,
                 order_bill.status,
                 waiter_id,
-                employee.name as "waiter_name",
-                employee.lastname as "waiter_lastname",
+                employee.e_name as "waiter_name",
+                employee.e_lastname as "waiter_lastname",
                 order_by,
                 user.name as "order_by_name",
                 user.lastname as "order_by_lastname",
@@ -53,7 +53,7 @@ function getOrder($limit = null, $offset = 0, $filters = null)
             FROM
                 `order_bill`
             LEFT OUTER JOIN employee ON order_bill.waiter_id = employee.id
-            LEFT OUTER JOIN USER ON order_bill.order_by = user.id
+            LEFT OUTER JOIN user ON order_bill.order_by = user.id
             ' . filterObjToSQL($conn, $filters) . ';';
     }
     $res = mysqli_fetch_all(mysqli_query($conn, $sql), MYSQLI_ASSOC);
