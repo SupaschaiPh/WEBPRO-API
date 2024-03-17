@@ -62,7 +62,7 @@ function getOrder($limit = null, $offset = 0, $filters = null)
     count(order_bill.id) FROM order_bill 
     
     LEFT OUTER JOIN employee ON order_bill.waiter_id = employee.id
-    LEFT OUTER JOIN USER ON order_bill.order_by = user.id 
+    LEFT OUTER JOIN user ON order_bill.order_by = user.id 
     " . filterObjToSQL($conn, $filters) . ";"));
     $hold["data"] = $res;
     $hold["limit"] = $maximumlimit[0][0];
